@@ -53,26 +53,36 @@ export const editorial = [
     id: "2",
     title: "2027 Presidential Election: The Entrance into a New Era!",
     category: "Business",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTelPOLNp3q2caSZXWgENBcW1wTYD2qIS4ryfxPwCbAZw&s=10",
   },
   {
     id: "3",
     title: "2027 Presidential Election: The Entrance into a New Era!",
     category: "Security",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTelPOLNp3q2caSZXWgENBcW1wTYD2qIS4ryfxPwCbAZw&s=10",
   },
   {
     id: "4",
     title: "2027 Presidential Election: The Entrance into a New Era!",
     category: "Politics",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTelPOLNp3q2caSZXWgENBcW1wTYD2qIS4ryfxPwCbAZw&s=10",
   },
   {
     id: "5",
     title: "2027 Presidential Election: The Entrance into a New Era!",
     category: "Security",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTelPOLNp3q2caSZXWgENBcW1wTYD2qIS4ryfxPwCbAZw&s=10",
   },
   {
     id: "6",
     title: "2027 Presidential Election: The Entrance into a New Era!",
     category: "Politics",
+    image:
+      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTelPOLNp3q2caSZXWgENBcW1wTYD2qIS4ryfxPwCbAZw&s=10",
   },
 ];
 
