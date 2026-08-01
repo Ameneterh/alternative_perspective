@@ -26,7 +26,7 @@ export default function HomePage() {
       </div>
 
       <div className=" mx-4 md:mx-auto max-w-6xl flex flex-col gap-4 mt-4 md:mt-16">
-        <p className="text-2xl font-extrabold">Editorials</p>
+        <p className="text-2xl font-extrabold">Features</p>
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
           {editorial?.slice(0, 4).map((editorial, id) => (
             <div key={id} className="flex items-start gap-2 w-full">
@@ -45,26 +45,27 @@ export default function HomePage() {
           ))}
         </div>
       </div>
-      {/* <PossibleClientsComponent /> */}
-      {/* <AboutUsComponent /> */}
 
-      {/* <div id="account-types">
-        <BillingPlansComponent />
-      </div> */}
-      {/* <div className="px-20 mt-10 bg-white">
-        <GalleryComponent title="View Gallery" news={slicedNews} />
-      </div> */}
-
-      {/* {ratings?.length > 0 ? (
-        <CustomerFeedbackComponent ratings={ratings} />
-      ) : (
-        <></>
-      )} */}
-
-      {/* <CallToActionComponent />
-      {registeredBusiness.length > 0 && (
-        <OurClientListComponent clients={businesses} />
-      )} */}
+      <div className=" mx-4 md:mx-auto max-w-6xl flex flex-col gap-4 my-4 md:my-16 pt-4 md:pt-10 border-t-2 border-t-red-800">
+        <p className="text-2xl font-extrabold">Guest Columns</p>
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+          {editorial?.slice(0, 4).map((editorial, id) => (
+            <div key={id} className="flex items-start gap-2 w-full">
+              <img src={editorial.image} className="w-20 h-20 rounded" />
+              <div className="flex flex-1 flex-col items-start -mt-1">
+                <div className="flex gap-1 items-center">
+                  <span className="font-bold leading-tight">
+                    {editorial.title}
+                  </span>
+                </div>
+                <p className="text-xs text-red-600 mt-1 uppercase">
+                  {editorial.category}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </MainLayout>
   );
 }

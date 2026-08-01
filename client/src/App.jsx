@@ -15,6 +15,7 @@ import ContactUs from "./pages/ContactUs.jsx";
 import { useLocation } from "react-router-dom";
 import RegisterUser from "./pages/RegisterUser.jsx";
 import PostDisplayPage from "./pages/PostDisplayPage.jsx";
+import AboutUsComponent from "./pages/AboutUsComponent.jsx";
 
 // protected routes
 const ProtectedRoute = ({ children }) => {
@@ -87,6 +88,7 @@ function App() {
         />
 
         <Route path="/support" element={<ContactUs />} />
+        <Route path="/about" element={<AboutUsComponent />} />
         <Route path="/post/:slug" element={<PostDisplayPage />} />
         <Route path="*" element={<NotFoundPage />} />
 
