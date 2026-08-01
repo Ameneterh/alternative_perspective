@@ -1,0 +1,79 @@
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import MainLayout from "../layout/MainLayout";
+import { posts } from "../assets/static_assets";
+import { useParams } from "react-router-dom";
+
+export default function PostDisplayPage() {
+  const { slug } = useParams();
+  const [comment, setComment] = useState("");
+
+  const selectedPost = posts.find((post) => post.slug === slug);
+
+  console.log(selectedPost);
+
+  return (
+    <MainLayout>
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ delay: 0.6 }}
+        className="pt-20 flex items-start flex-col md:flex-row gap-10 mt-10 md:mt-20 px-4 md:px-20 mb-6 min-h-screen mx-auto"
+      >
+        <div className="flex flex-col gap-3">
+          <h1 className="text-3xl font-bold">{selectedPost?.title}</h1>
+          <p className="text-gray-600">{selectedPost?.time}</p>
+          <img
+            src={selectedPost?.image}
+            alt={selectedPost?.title}
+            className="w-full h-auto rounded-md"
+          />
+          <div className="flex items-center justify-between">
+            <p className="border-l-2 border-l-red-600 p-1">
+              By {selectedPost?.author}
+            </p>
+            <p className="text-gray-600">
+              {(selectedPost?.content.length / 1000).toFixed(0)} mins read
+            </p>
+          </div>
+
+          <div
+            dangerouslySetInnerHTML={{ __html: selectedPost?.content }}
+            className="text-gray-700 w-full max-w-5xl"
+          ></div>
+
+          {/* comments */}
+          <div className="flex flex-col mt-10 border-t-2 border-t-red-900 w-full p-2 bg-slate-100">
+            <p className="text-center text-red-600 font-bold mb-6">
+              DISCLAIMER!{" "}
+              <span className="block text-slate-800">
+                Comments are not necessarily the views of the editor or
+                publisher but that of the users.
+              </span>
+            </p>
+
+            <form className="flex flex-col gap-4">
+              <textarea
+                placeholder="Write your comment here..."
+                className={`border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${comment.length > 200 ? "text-red-500" : ""}`}
+                value={comment}
+                onChange={(e) => setComment(e.target.value)}
+              ></textarea>
+              <p className="flex items-center text-xs -mt-3">
+                {comment.length}/200
+              </p>
+              <button
+                type="submit"
+                className="bg-red-900 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+              >
+                Submit Comment
+              </button>
+            </form>
+          </div>
+        </div>
+
+        <div className="flex flex-col md:max-w-96 w-full h-96 bg-gray-400"></div>
+      </motion.div>
+    </MainLayout>
+  );
+}

@@ -9,13 +9,19 @@ import {
 } from "lucide-react";
 import { useState } from "react";
 import heroImage from "../assets/hero_image.jpeg";
-import { top_news, editorial } from "../assets/static_assets";
+import { posts } from "../assets/static_assets";
 
 import { Link } from "react-router-dom";
 import { MdStars } from "react-icons/md";
 
 export default function HeroComponent() {
   const [isLoading, setIsLoading] = useState(false);
+
+  const mostReadPost = posts.reduce((max, post) => {
+    return post.readCount > max.readCount ? post : max;
+  }, posts[0]);
+
+  console.log(mostReadPost);
 
   return (
     <motion.div
@@ -31,17 +37,25 @@ export default function HeroComponent() {
           <p className="text-nowrap font-bold">Top News</p>
         </div>
         <div className="w-full h-[2px] bg-black my-3"></div>
-        {top_news?.slice(0, 5).map((news, id) => (
-          <div key={id} className="flex items-start gap-1 w-full mb-3">
-            <MdStars className="text-red-600" size={16} />
-            <div className="flex flex-1 flex-col items-start -mt-1">
-              <div className="flex gap-1 items-center">
-                <span className="font-bold leading-tight">{news.title}</span>
+        {posts
+          ?.filter((post) => post.category === "News")
+          .slice(0, 5)
+          .map((news, id) => (
+            <div key={id} className="flex items-start gap-1 w-full mb-3">
+              <MdStars className="text-red-600" size={16} />
+              <div className="flex flex-1 flex-col items-start -mt-1">
+                <div className="flex gap-1 items-center">
+                  <Link
+                    to={`/post/${news.slug}`}
+                    className="font-bold leading-tight"
+                  >
+                    {news.title}
+                  </Link>
+                </div>
+                <p className="text-xs text-red-600 mt-1">{news.time}</p>
               </div>
-              <p className="text-xs text-red-600 mt-1">{news.time}</p>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
 
       {/* middle pane */}
@@ -50,18 +64,18 @@ export default function HeroComponent() {
           <div
             className="relative h-96 w-full bg-cover bg-top bg-no-repeat text-black bg-blue-950 rounded-md"
             style={{
-              backgroundImage: `url(${heroImage})`,
+              backgroundImage: `url(${mostReadPost.image})`,
             }}
           ></div>
           <div className="text-black text-center">
-            <p className="text-2xl font-extrabold line-clamp-1">
-              JAMB Registrar bows out after a meritorious service
-            </p>
+            <Link
+              to={`/post/${mostReadPost.slug}`}
+              className="text-2xl font-extrabold line-clamp-1"
+            >
+              {mostReadPost.title}
+            </Link>
             <p className="text-sm font-extralight line-clamp-2">
-              Lorem ipsum dolor sit amet consectetur adipisicing elit.
-              Consequatur, dolorum excepturi incidunt commodi sunt illo dolorem.
-              Est obcaecati ducimus dolores tempore possimus voluptatem? Fuga
-              cupiditate voluptate id quae, temporibus architecto.
+              {mostReadPost.content}
             </p>
           </div>
         </div>
@@ -74,20 +88,26 @@ export default function HeroComponent() {
           <p className="text-nowrap font-bold">Editorial</p>
         </div>
         <div className="w-full h-[2px] bg-black my-3"></div>
-        {editorial?.slice(0, 5).map((editorial, id) => (
-          <div key={id} className="flex items-start gap-1 w-full mb-3">
-            <div className="flex flex-1 flex-col items-start -mt-1">
-              <div className="flex gap-1 items-center">
-                <span className="font-bold leading-tight">
-                  {editorial.title}
-                </span>
+        {posts
+          ?.filter((post) => post.category === "Editorials")
+          .slice(0, 5)
+          .map((editorial, id) => (
+            <div key={id} className="flex items-start gap-1 w-full mb-3">
+              <div className="flex flex-1 flex-col items-start -mt-1">
+                <div className="flex gap-1 items-center">
+                  <Link
+                    to={`/post/${editorial.slug}`}
+                    className="font-bold leading-tight"
+                  >
+                    {editorial.title}
+                  </Link>
+                </div>
+                <p className="text-xs text-red-600 mt-1 uppercase">
+                  {editorial.subCategory}
+                </p>
               </div>
-              <p className="text-xs text-red-600 mt-1 uppercase">
-                {editorial.category}
-              </p>
             </div>
-          </div>
-        ))}
+          ))}
       </div>
     </motion.div>
   );
