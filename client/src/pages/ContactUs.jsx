@@ -14,9 +14,11 @@ import {
   MdOutlineMessage,
   MdWhatsapp,
 } from "react-icons/md";
+import schBadge from "../assets/altpers_logoname.jpeg";
 import { useState } from "react";
 import { useContactStore } from "../store/contactStore";
 import { useAuthStore } from "../store/authStore";
+import { company_info } from "../assets/company_info";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -37,6 +39,7 @@ export default function ContactUs() {
   const { user } = useAuthStore();
 
   const [name, setName] = useState(user?.fullname || "");
+  const [email, setEmail] = useState(user?.email || "");
   const [phone, setPhone] = useState(user?.phoneNumber || "");
   const [text, setText] = useState("");
 
@@ -45,6 +48,7 @@ export default function ContactUs() {
     try {
       await sendMessage({
         sender_name: name.toLowerCase(),
+        sender_email: email.toLowerCase(),
         sender_phone: phone,
         text,
       });
@@ -62,7 +66,7 @@ export default function ContactUs() {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.5 }}
-        className="pt-10 sm:pt-20 max-w-6xl min-h-screen w-full mx-auto mt-10 p-4 bg-opacity-80 text-blue-950 mb-10"
+        className="pt-10 sm:pt-20 max-w-6xl min-h-screen w-full mx-auto mt-10 md:mt-20 p-4 bg-opacity-80 text-blue-950 mb-10"
       >
         <motion.div
           variants={fadeInUp}
@@ -71,8 +75,8 @@ export default function ContactUs() {
           className="flex-1 w-full"
         >
           <h1 className="text-xl md:text-3xl font-bold border-l-[6px] border-l-orange-600 pl-3 mb-6 md:leading-[20px]">
-            Contact the <br />
-            <span className="md:text-5xl">Dev Team</span>
+            I am here <br />
+            <span className="md:text-5xl">For You</span>
           </h1>
         </motion.div>
 
@@ -80,84 +84,185 @@ export default function ContactUs() {
           variants={fadeInUp}
           initial="hidden"
           animate="visible"
-          className="flex-1 flex flex-col lg:flex-row w-full"
+          className="flex-1 flex flex-col items-center lg:flex-row w-full"
         >
-          <form
-            onSubmit={handleSubmit}
-            className="w-full bg-white text-black rounded-md lg:rounded-lg p-2 lg:p-4 flex flex-col"
+          {/* left hand side */}
+          <motion.div
+            variants={fadeInUp}
+            initial="hidden"
+            animate="visible"
+            className="flex-1 flex flex-col items-center justify-center text-center mt-8 w-full mb-8"
           >
-            <p className="text-lg lg:text-2xl text-center font-bold mb-4">
-              Send us a direct message
-            </p>
-
-            <div className="flex flex-col gap-5 lg:gap-6">
-              {/* full name */}
-              <div className="relative rounded-md border border-black">
-                <label className="absolute font-semibold -top-3 bg-white px-1 left-1 text-xs text-gray-800">
-                  Your Full Name:
-                </label>
-                <input
-                  type="text"
-                  name="name"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  required
-                  className="w-full outline-none border-none focus:outline-none focus:border-none rounded-md p-2 bg-white"
-                />
-                <MdOutlineDriveFileRenameOutline
-                  size={18}
-                  className="absolute right-2 top-3"
-                />
-              </div>
-
-              {/* phone number */}
-              <div className="relative rounded-md border border-black">
-                <label className="absolute font-semibold -top-3 bg-white px-1 left-1 text-xs text-gray-800">
-                  Your Phone Number:
-                </label>
-                <input
-                  type="text"
-                  name="phone"
-                  value={phone}
-                  onChange={(e) => setPhone(e.target.value)}
-                  required
-                  className="w-full outline-none border-none focus:outline-none focus:border-none rounded-md p-2 bg-white"
-                />
-                <MdOutlinePhoneInTalk
-                  size={18}
-                  className="absolute right-2 top-3"
-                />
-              </div>
-
-              {/* message */}
-              <div className="relative rounded-md border border-black">
-                <label className="absolute font-semibold -top-3 bg-white px-1 left-1 text-xs text-gray-800">
-                  Your message to us:
-                </label>
-                <textarea
-                  type="text"
-                  name="message"
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                  required
-                  className="w-full outline-none border-none focus:outline-none focus:border-none rounded-md p-2 bg-white"
-                />
-                <MdOutlineMessage
-                  size={18}
-                  className="absolute right-2 top-3"
-                />
-              </div>
+            <div
+              className="h-44 w-64 bg-cover bg-center bg-no-repeat text-black mb-5 bg-blue-950 p-2 rounded-md"
+              style={{
+                backgroundImage: `url(${schBadge})`,
+              }}
+            ></div>
+            <div className="flex flex-col gap-0">
+              {/* <h1 className="text-4xl font-extrabold text-orange-700 -mb-1">
+                {company_info.name}
+              </h1> */}
+              <p className="text-sm">{company_info.address}</p>
             </div>
+            <div className="flex flex-col">
+              <p className="flex items-center gap-3 text-sm">
+                <span className="flex items-center gap-1">
+                  <MdOutlinePhoneInTalk size={18} />
+                  <a
+                    href={`tel:${company_info.call_number}`}
+                    className="hover:scale-105 hover:underline hover:text-blue-800 underline-offset-2"
+                  >
+                    {company_info.call_number}
+                  </a>
+                </span>{" "}
+                <span className="flex items-center gap-1">
+                  <MdWhatsapp size={18} />
+                  <a
+                    href={`https://wa.me/${company_info.call_number}`}
+                    target="_blank"
+                    className="hover:scale-105 hover:underline hover:text-blue-800 underline-offset-2"
+                  >
+                    {company_info.whatsapp_number}
+                  </a>
+                </span>
+              </p>
+              <div className="flex items-center justify-center gap-1 w-full">
+                <MdOutlineMarkEmailRead size={18} />
+                <Link
+                  to={`mailto:${company_info.email}`}
+                  className="hover:scale-105 hover:text-blue-800 hover:underline underline-offset-2"
+                >
+                  {company_info.email}
+                </Link>
+              </div>
+              <p className="flex items-center justify-center gap-2">
+                <span className="text-orange-600">Follow me:</span>
+                <Link
+                  to={`${company_info.twitter}`}
+                  className="hover:underline hover:font-semibold underline-offset-2"
+                >
+                  <FaTwitter size={20} className="hover:text-blue-700" />
+                </Link>
+                <Link
+                  to={`${company_info.facebook}`}
+                  className="hover:underline hover:font-semibold underline-offset-2"
+                >
+                  <FaFacebook size={20} className="hover:text-blue-700" />
+                </Link>
+                <Link
+                  to={`${company_info.linkedin}`}
+                  className="hover:underline hover:font-semibold underline-offset-2"
+                >
+                  <FaLinkedin size={20} className="hover:text-blue-700" />
+                </Link>
+              </p>
+            </div>
+          </motion.div>
 
-            <motion.button
-              className="mx-auto mt-5 py-2 px-4 bg-gradient-to-r from-green-800 to-emerald-900 rounded-lg hover:from-green-600 hover:to-emerald-700 text-white focus:outline-none focus:ring-1 focus:ring-green-500 focus:ring-offset-1 focus:ring-offset-gray-900 transition duration-200 cursor-pointer flex items-center justify-center"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              type="submit"
+          {/* right hand side */}
+          <motion.div
+            variants={fadeInUp}
+            initial="hidden"
+            animate="visible"
+            className="flex-1 flex flex-col lg:flex-row w-full"
+          >
+            <form
+              onSubmit={handleSubmit}
+              className="w-full bg-white text-black rounded-md lg:rounded-lg p-2 lg:p-4 flex flex-col"
             >
-              Submit Message
-            </motion.button>
-          </form>
+              <p className="text-lg lg:text-2xl text-center font-bold mb-4">
+                Send us a direct message
+              </p>
+
+              <div className="flex flex-col gap-5 lg:gap-6">
+                {/* full name */}
+                <div className="relative rounded-md border border-black">
+                  <label className="absolute font-semibold -top-3 bg-white px-1 left-1 text-xs text-gray-800">
+                    Your Full Name:
+                  </label>
+                  <input
+                    type="text"
+                    name="name"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    required
+                    className="w-full outline-none border-none focus:outline-none focus:border-none rounded-md p-2 bg-white"
+                  />
+                  <MdOutlineDriveFileRenameOutline
+                    size={18}
+                    className="absolute right-2 top-3"
+                  />
+                </div>
+
+                {/* phone number */}
+                <div className="relative rounded-md border border-black">
+                  <label className="absolute font-semibold -top-3 bg-white px-1 left-1 text-xs text-gray-800">
+                    Your Phone Number:
+                  </label>
+                  <input
+                    type="text"
+                    name="phone"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
+                    required
+                    className="w-full outline-none border-none focus:outline-none focus:border-none rounded-md p-2 bg-white"
+                  />
+                  <MdOutlinePhoneInTalk
+                    size={18}
+                    className="absolute right-2 top-3"
+                  />
+                </div>
+
+                {/* email */}
+                <div className="relative rounded-md border border-black">
+                  <label className="absolute font-semibold -top-3 bg-white px-1 left-1 text-xs text-gray-800">
+                    Your Email:
+                  </label>
+                  <input
+                    type="email"
+                    name="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                    className="w-full outline-none border-none focus:outline-none focus:border-none rounded-md p-2 bg-white"
+                  />
+                  <MdOutlineMarkEmailRead
+                    size={18}
+                    className="absolute right-2 top-3"
+                  />
+                </div>
+
+                {/* message */}
+                <div className="relative rounded-md border border-black">
+                  <label className="absolute font-semibold -top-3 bg-white px-1 left-1 text-xs text-gray-800">
+                    Your message to us:
+                  </label>
+                  <textarea
+                    type="text"
+                    name="message"
+                    value={text}
+                    onChange={(e) => setText(e.target.value)}
+                    required
+                    className="w-full outline-none border-none focus:outline-none focus:border-none rounded-md p-2 bg-white"
+                  />
+                  <MdOutlineMessage
+                    size={18}
+                    className="absolute right-2 top-3"
+                  />
+                </div>
+              </div>
+
+              <motion.button
+                className="mx-auto mt-5 py-2 px-4 bg-gradient-to-r from-red-800 to-red-900 rounded-lg hover:from-red-600 hover:to-red-700 text-white focus:outline-none focus:ring-1 focus:ring-red-500 focus:ring-offset-1 focus:ring-offset-gray-900 transition duration-200 cursor-pointer flex items-center justify-center"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                type="submit"
+              >
+                Submit Message
+              </motion.button>
+            </form>
+          </motion.div>
         </motion.div>
       </motion.div>
     </MainLayout>

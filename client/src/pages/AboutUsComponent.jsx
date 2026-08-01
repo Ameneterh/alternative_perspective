@@ -53,7 +53,7 @@ export default function AboutUsComponent() {
                 />
                 <div className="flex flex-col text-center">
                   <h2 className="text-lg font-bold text-red-950">
-                    Pharm BAGUGU Mohammed
+                    Pharm BAGUDU Mohammed
                   </h2>
                   <p className="text-xs text-gray-800 -mt-1">
                     Founder/Managing Partner, Alternative Perspectives

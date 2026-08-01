@@ -28,6 +28,7 @@ import {
   MdLogin,
   MdSubscriptions,
   MdFeaturedPlayList,
+  MdContactPhone,
 } from "react-icons/md";
 import { TbListDetails } from "react-icons/tb";
 import { FcAbout } from "react-icons/fc";
@@ -56,8 +57,8 @@ export default function HeaderComponent({ business }) {
       isParent: false,
     },
     {
-      name: "Featured",
-      path: "/featured",
+      name: "Features",
+      path: "/features",
       icon: <MdFeaturedPlayList />,
       isParent: false,
     },
@@ -80,9 +81,9 @@ export default function HeaderComponent({ business }) {
       isParent: true,
     },
     {
-      name: "Support",
-      path: "/support",
-      icon: <MdOutlineContactSupport />,
+      name: "Contact",
+      path: "/contact",
+      icon: <MdContactPhone />,
       isParent: false,
     },
   ];
