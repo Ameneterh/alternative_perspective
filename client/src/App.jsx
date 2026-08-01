@@ -76,7 +76,7 @@ function App() {
           }
         />
         <Route
-          path="/"
+          path="/login"
           element={
             isAuthenticated && user?.status === "active" ? (
               <Navigate to="/user-dashboard?tab=dash" replace />

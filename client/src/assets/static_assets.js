@@ -11,7 +11,8 @@ export const posts = [
     content:
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas debitis est asperiores nemo, rem atque, rerum voluptates, obcaecati provident eligendi commodi placeat dolorem dicta mollitia nam ea pariatur! Nostrum, error?",
     readCount: 90,
-    time: "10 minutes ago",
+    comments: [],
+    createdAt: "2023-08-01T10:00:00Z",
   },
   {
     id: "2",
@@ -25,7 +26,8 @@ export const posts = [
     content:
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas debitis est asperiores nemo, rem atque, rerum voluptates, obcaecati provident eligendi commodi placeat dolorem dicta mollitia nam ea pariatur! Nostrum, error?",
     readCount: 10,
-    time: "15 minutes ago",
+    comments: [],
+    createdAt: "2026-05-01T10:00:00Z",
   },
   {
     id: "3",
@@ -40,7 +42,8 @@ export const posts = [
     content:
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas debitis est asperiores nemo, rem atque, rerum voluptates, obcaecati provident eligendi commodi placeat dolorem dicta mollitia nam ea pariatur! Nostrum, error?",
     readCount: 80,
-    time: "25 minutes ago",
+    comments: [],
+    createdAt: "2023-08-01T10:00:00Z",
   },
   {
     id: "4",
@@ -55,7 +58,8 @@ export const posts = [
     content:
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas debitis est asperiores nemo, rem atque, rerum voluptates, obcaecati provident eligendi commodi placeat dolorem dicta mollitia nam ea pariatur! Nostrum, error?",
     readCount: 1,
-    time: "30 minutes ago",
+    comments: [],
+    createdAt: "2026-06-09T10:12:00Z",
   },
   {
     id: "5",
@@ -70,7 +74,8 @@ export const posts = [
     content:
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas debitis est asperiores nemo, rem atque, rerum voluptates, obcaecati provident eligendi commodi placeat dolorem dicta mollitia nam ea pariatur! Nostrum, error?",
     readCount: 20,
-    time: "31 minutes ago",
+    comments: [],
+    createdAt: "2025-08-21T07:31:00Z",
   },
   {
     id: "6",
@@ -85,7 +90,8 @@ export const posts = [
     content:
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas debitis est asperiores nemo, rem atque, rerum voluptates, obcaecati provident eligendi commodi placeat dolorem dicta mollitia nam ea pariatur! Nostrum, error?",
     readCount: 15,
-    time: "45 minutes ago",
+    comments: [],
+    createdAt: "2026-08-01T10:00:00Z",
   },
   {
     id: "7",
@@ -100,7 +106,8 @@ export const posts = [
     content:
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas debitis est asperiores nemo, rem atque, rerum voluptates, obcaecati provident eligendi commodi placeat dolorem dicta mollitia nam ea pariatur! Nostrum, error?",
     readCount: 85,
-    time: "48 minutes ago",
+    comments: [],
+    createdAt: "2023-08-01T10:00:00Z",
   },
   {
     id: "7",
@@ -114,7 +121,33 @@ export const posts = [
     content:
       "Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas debitis est asperiores nemo, rem atque, rerum voluptates, obcaecati provident eligendi commodi placeat dolorem dicta mollitia nam ea pariatur! Nostrum, error? Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas debitis est asperiores nemo, rem atque, rerum voluptates, obcaecati provident eligendi commodi placeat dolorem dicta mollitia nam ea pariatur! Nostrum, error?\n\nLorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas debitis est asperiores nemo, rem atque, rerum voluptates, obcaecati provident eligendi commodi placeat dolorem dicta mollitia nam ea pariatur! Nostrum, error?Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas debitis est asperiores nemo, rem atque, rerum voluptates, obcaecati provident eligendi commodi placeat dolorem dicta mollitia nam ea pariatur! Nostrum, error?\n\nLorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptas debitis est asperiores nemo, rem atque, rerum voluptates, obcaecati provident eligendi commodi placeat dolorem dicta mollitia nam ea pariatur! Nostrum, error?",
     readCount: 121,
-    time: "48 minutes ago",
+    comments: [
+      {
+        id: "1",
+        commentBy: {
+          fullname: "John Doe",
+          email: "john.doe@example.com",
+          avatar:
+            "https://png.pngtree.com/png-clipart/20231020/original/pngtree-avatar-of-a-brunette-man-png-image_13379740.png",
+        },
+        createdAt: "2023-08-01T10:00:00Z",
+        comment:
+          "From John Doe, this is a great post! I learned a lot from it.",
+      },
+      {
+        id: "2",
+        commentBy: {
+          fullname: "Jane Doe",
+          email: "jane.doe@example.com",
+          avatar:
+            "https://img.favpng.com/3/11/24/3d-woman-avatar-stylized-cartoon-woman-avatar-with-glasses-g0FutwYY_t.jpg",
+        },
+        createdAt: "2023-08-01T11:00:00Z",
+        comment:
+          "From Jane Doe, this is a great post! I learned a lot from it.",
+      },
+    ],
+    createdAt: "2023-07-31T11:00:00Z",
   },
 ];
 

@@ -14,12 +14,13 @@ import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import MainLayout from "../layout/MainLayout";
+import toast from "react-hot-toast";
 
 export default function LoginPage() {
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const { isLoading, login, error } = useAuthStore();
 
@@ -27,8 +28,8 @@ export default function LoginPage() {
     e.preventDefault();
 
     try {
-      await login(username, password);
-      navigate("/user-dashboard?tab=dash");
+      await login(email, password);
+      toast.success("You have successfully logged in!");
     } catch (error) {
       console.log(error);
     }
@@ -43,7 +44,7 @@ export default function LoginPage() {
           transition={{ duration: 0.5 }}
           className="max-w-md mx-auto w-full bg-white backdrop-filter backdrop-blur-xl rounded-lg shadow-xl overflow-hidden my-10 flex flex-col"
         >
-          <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-blue-950 to bg-blue-500 text-transparent bg-clip-text pt-8">
+          <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-red-950 to bg-red-700 text-transparent bg-clip-text pt-8">
             Welcome Back!
           </h2>
 
@@ -51,38 +52,38 @@ export default function LoginPage() {
           <div className="p-8">
             <form onSubmit={handleLogin} className="flex flex-col gap-4">
               <Input
+                color="red"
                 icon={CircleUserRound}
-                type="text"
-                // placeholder="Handler Email"
-                label="Username"
-                value={username}
-                onChange={(e) => setUsername(e.target.value)}
+                type="email"
+                label="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
               <div className="relative flex items-center w-full">
                 <Input
+                  color="red"
                   icon={Lock}
                   type={showPassword ? "text" : "password"}
-                  // placeholder="Enter Strong Password"
                   label="User Password"
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                 />
                 <div
-                  className="absolute right-2 inset-y-0 cursor-pointer flex items-center mt-2"
+                  className="absolute right-2 inset-y-0 cursor-pointer flex items-center"
                   onClick={() => setShowPassword(!showPassword)}
                 >
                   {showPassword ? (
-                    <EyeOff className="size-5 text-green-500" />
+                    <EyeOff className="size-5 text-red-800" />
                   ) : (
-                    <Eye className="size-5 text-green-500" />
+                    <Eye className="size-5 text-red-800" />
                   )}
                 </div>
               </div>
 
-              <div>
+              <div className="-mt-2 flex items-center justify-end">
                 <Link
                   to="/reset-password"
-                  className="text-sm text-green-800 hover:underline"
+                  className="text-sm text-blue-800 hover:underline"
                 >
                   Forgot Password?
                 </Link>
@@ -95,7 +96,7 @@ export default function LoginPage() {
               )}
 
               <motion.button
-                className="py-3 px-8 bg-gradient-to-r from-slate-600 to-blue-800 rounded-lg hover:border-white hover:from-blue-800 hover:to-slate-600 border focus:outline-none transition duration-200 cursor-pointer flex items-center justify-center text-white"
+                className="bg-red-900 text-white py-3 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-nowrap h-fit text-sm flex items-center justify-center gap-1"
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
                 type="submit"
@@ -114,6 +115,16 @@ export default function LoginPage() {
                 )}
               </motion.button>
             </form>
+
+            <p className="text-sm flex items-center text-center justify-center mt-4">
+              Don't have an account?
+              <Link
+                to="/register"
+                className="text-blue-600 ml-1 hover:underline"
+              >
+                Register
+              </Link>
+            </p>
           </div>
         </motion.div>
       </div>

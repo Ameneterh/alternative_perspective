@@ -2,9 +2,12 @@ import React, { useState } from "react";
 import { motion } from "framer-motion";
 import MainLayout from "../layout/MainLayout";
 import { posts } from "../assets/static_assets";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
+import { useAuthStore } from "../store/authStore";
+import { MdOutlineAddComment } from "react-icons/md";
 
 export default function PostDisplayPage() {
+  const { error, isLoading, logout, user } = useAuthStore();
   const { slug } = useParams();
   const [comment, setComment] = useState("");
 
@@ -22,7 +25,17 @@ export default function PostDisplayPage() {
       >
         <div className="flex flex-col gap-3">
           <h1 className="text-3xl font-bold">{selectedPost?.title}</h1>
-          <p className="text-gray-600">{selectedPost?.time}</p>
+
+          <div className="flex items-center gap-4">
+            <p className="text-gray-800 text-sm">
+              Posted on{" "}
+              {new Date(selectedPost?.createdAt).toLocaleString("en-GB")}
+            </p>
+            <span className="border-l-2 border-b-gray-900 pl-2 text-sm">
+              Read {selectedPost.readCount}{" "}
+              {selectedPost.readCount === 1 ? "time" : "times"}
+            </span>
+          </div>
           <img
             src={selectedPost?.image}
             alt={selectedPost?.title}
@@ -44,30 +57,91 @@ export default function PostDisplayPage() {
 
           {/* comments */}
           <div className="flex flex-col mt-10 border-t-2 border-t-red-900 w-full p-2 bg-slate-100">
-            <p className="text-center text-red-600 font-bold mb-6">
+            <p className="text-center text-red-600 font-bold mb-6 text-sm">
               DISCLAIMER!{" "}
-              <span className="block text-slate-800">
+              <span className="block text-slate-800 font-light text-sm">
                 Comments are not necessarily the views of the editor or
                 publisher but that of the users.
               </span>
             </p>
 
-            <form className="flex flex-col gap-4">
-              <textarea
-                placeholder="Write your comment here..."
-                className={`border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${comment.length > 200 ? "text-red-500" : ""}`}
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-              ></textarea>
-              <p className="flex items-center text-xs -mt-3">
-                {comment.length}/200
+            <div className="flex flex-col w-full bg-white min-h-20 rounded p-2">
+              <p className="text-sm font-bold flex items-center gap-1 text-red-800">
+                {selectedPost.comments.length}
+                <span>
+                  {selectedPost.comments.length === 1 ? "Comment" : "Comments"}
+                </span>
               </p>
-              <button
-                type="submit"
-                className="bg-red-900 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
-              >
-                Submit Comment
-              </button>
+              {selectedPost.comments.length > 0 ? (
+                <div className="flex flex-col">
+                  {selectedPost.comments.map((comment) => (
+                    <div
+                      key={comment.id}
+                      className="border-b border-gray-300 p-2 flex items-start gap-2"
+                    >
+                      <img
+                        src={comment.commentBy.avatar}
+                        alt={comment.commentBy.fullname}
+                        className="w-8 h-8 rounded-full"
+                      />
+                      <div className="flex flex-col">
+                        <p className="flex items-center font-bold text-sm">
+                          {comment.commentBy.fullname}{" "}
+                          <Link
+                            to={`mailto:${comment.commentBy.email}`}
+                            className="text-blue-700 font-light hover:underline underline-offset-2 ml-2"
+                          >
+                            {comment.commentBy.email}
+                          </Link>
+                        </p>
+                        <p className="text-gray-700 text-sm">
+                          {comment.comment}
+                        </p>
+                        <p className="text-gray-500 text-xs">
+                          Posted on{" "}
+                          {new Date(comment.createdAt).toLocaleString()}
+                        </p>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <p className="text-gray-700 text-center">
+                  No comments yet;{" "}
+                  <span className="text-red-950 font-bold block">
+                    you can help us change that!
+                  </span>
+                </p>
+              )}
+            </div>
+
+            <form className="flex flex-col md:flex-row gap-4 w-full mt-6">
+              <div className="flex flex-col w-full">
+                <textarea
+                  placeholder="Write your comment here..."
+                  className={`border border-gray-300 rounded-md p-2 focus:outline-none focus:ring-2 focus:ring-blue-500 ${comment.length > 200 ? "text-red-500" : ""}`}
+                  value={comment}
+                  onChange={(e) => setComment(e.target.value)}
+                ></textarea>
+                <p className="flex items-center text-xs mt-1 ml-2">
+                  {comment.length}/200
+                </p>
+              </div>
+              {user ? (
+                <button
+                  type="submit"
+                  className="bg-red-900 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-nowrap h-fit text-sm flex items-center gap-1"
+                >
+                  <MdOutlineAddComment size={20} /> Submit
+                </button>
+              ) : (
+                <Link
+                  to="/login"
+                  className="bg-red-900 text-white py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-blue-500 text-nowrap h-fit text-sm flex items-center gap-1"
+                >
+                  Login to comment
+                </Link>
+              )}
             </form>
           </div>
         </div>
