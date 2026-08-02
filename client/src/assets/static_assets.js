@@ -1,7 +1,8 @@
 export const posts = [
   {
     id: "1",
-    title: "How to apply for police character certificate, tinted glass permit",
+    postTitle:
+      "How to apply for police character certificate, tinted glass permit",
     slug: "how-to-apply-for-police-character-certificate-tinted-glass-permit",
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRidFTlvIvFukLUObcuYmH0AtKY0rpDDBeyQkQvtHjrTg&s=10",
@@ -16,7 +17,7 @@ export const posts = [
   },
   {
     id: "2",
-    title: "Tinubu should tackle hunger, insecurity, not opponents – ADC",
+    postTitle: "Tinubu should tackle hunger, insecurity, not opponents – ADC",
     slug: "tinubu-should-tackle-hunger-insecurity-not-opponents-adc",
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTelPOLNp3q2caSZXWgENBcW1wTYD2qIS4ryfxPwCbAZw&s=10",
@@ -31,7 +32,7 @@ export const posts = [
   },
   {
     id: "3",
-    title:
+    postTitle:
       "Gov'r seeks 6,580 teachers, orders for smart schools, AI integration",
     slug: "govr-seeks-6580-teachers-orders-for-smart-schools-ai-integration",
     image:
@@ -47,7 +48,7 @@ export const posts = [
   },
   {
     id: "4",
-    title:
+    postTitle:
       "Gov'r seeks 6,580 teachers, orders for smart schools, AI integration",
     slug: "govr-seeks-6580-teachers-orders-for-smart-schools-ai-integration",
     image:
@@ -63,7 +64,7 @@ export const posts = [
   },
   {
     id: "5",
-    title:
+    postTitle:
       "Gov'r seeks 6,580 teachers, orders for smart schools, AI integration",
     slug: "govr-seeks-6580-teachers-orders-for-smart-schools-ai-integration",
     image:
@@ -79,7 +80,7 @@ export const posts = [
   },
   {
     id: "6",
-    title:
+    postTitle:
       "Gov'r seeks 6,580 teachers, orders for smart schools, AI integration",
     slug: "govr-seeks-6580-teachers-orders-for-smart-schools-ai-integration",
     image:
@@ -95,7 +96,7 @@ export const posts = [
   },
   {
     id: "7",
-    title:
+    postTitle:
       "Gov'r seeks 6,580 teachers, orders for smart schools, AI integration",
     slug: "govr-seeks-6580-teachers-orders-for-smart-schools-ai-integration",
     image:
@@ -111,7 +112,7 @@ export const posts = [
   },
   {
     id: "7",
-    title: "JAMB Registrar bows out after a meritorious service",
+    postTitle: "JAMB Registrar bows out after a meritorious service",
     slug: "jamb-registrar-bows-out-after-a-meritorious-service",
     image:
       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRidFTlvIvFukLUObcuYmH0AtKY0rpDDBeyQkQvtHjrTg&s=10",

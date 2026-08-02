@@ -3,8 +3,8 @@ import axios from "axios";
 
 const API_URL =
   import.meta.env.MODE === "development"
-    ? "http://localhost:5000/server/report"
-    : "/server/report";
+    ? "http://localhost:5000/server/post"
+    : "/server/post";
 
 const DOC_URL =
   import.meta.env.MODE === "development"
@@ -13,58 +13,60 @@ const DOC_URL =
 
 axios.defaults.withCredentials = true;
 
-export const useReportsStore = create((set) => ({
-  report: null,
+export const usePostStore = create((set) => ({
+  post: null,
   error: null,
   isLoading: false,
   message: null,
-  summary: [],
-  excelFile: null,
-  // wordFile: null,
 
   //   send new message
-  sendReport: async ({
-    workStation,
-    dutyType,
-    timeOfDuty,
-    reportStartDate,
-    reportEndDate,
-    dutyDateTime,
-    dutiesDone,
-    challenges,
-    observations,
-    interventions,
-    outOfStock,
-    remarks,
-    reporter,
+  savePost: async ({
+    postTitle,
+    postImage,
+    category,
+    subCategory,
+    postContent,
+    writer,
+    comments,
   }) => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/send-report`, {
-        workStation,
-        dutyType,
-        timeOfDuty,
-        reportStartDate,
-        reportEndDate,
-        dutyDateTime,
-        dutiesDone,
-        challenges,
-        observations,
-        interventions,
-        outOfStock,
-        remarks,
-        reporter,
+      const response = await axios.post(`${API_URL}/save-post`, {
+        postTitle,
+        postImage,
+        category,
+        subCategory,
+        postContent,
+        writer,
+        comments,
       });
       set({
-        report: response.data.rating,
+        post: response.data.post,
         isLoading: false,
       });
     } catch (error) {
       set({
         error:
-          error.response?.data?.message ||
-          error.message ||
-          "Error sending report",
+          error.response?.data?.message || error.message || "Error saving post",
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
+
+  // get all posts
+  getAllPosts: async () => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.get(`${API_URL}/get-posts`);
+      set({
+        posts: response.data.posts,
+        isLoading: false,
+      });
+      return response.data;
+    } catch (error) {
+      set({
+        error: error.response.data.message || "Error getting posts",
         isLoading: false,
       });
       throw error;
@@ -129,30 +131,6 @@ export const useReportsStore = create((set) => ({
 
         error: error.response?.data?.message || error.message,
       });
-    }
-  },
-
-  // 1. get all reports
-  getAllReports: async ({ startDate, endDate }) => {
-    set({ isLoading: true, error: null });
-    try {
-      const response = await axios.get(`${API_URL}/get-reports`, {
-        params: {
-          startDate,
-          endDate,
-        },
-      });
-      set({
-        reports: response.data.reports,
-        isLoading: false,
-      });
-      return response.data;
-    } catch (error) {
-      set({
-        error: error.response.data.message || "Error getting Reports",
-        isLoading: false,
-      });
-      throw error;
     }
   },
 

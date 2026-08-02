@@ -22,16 +22,17 @@ export const useAuthStore = create((set) => ({
   //   add new new user account
   addUser: async ({
     fullname,
+    email,
     username,
     phoneNumber,
     password,
     role,
-    rank,
   }) => {
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${API_URL}/add-user`, {
         fullname,
+        email,
         username,
         phoneNumber,
         password,
@@ -52,48 +53,12 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  //   admin add new new user account
-  addNewUser: async ({
-    fullname,
-    username,
-    phoneNumber,
-    role,
-    rank,
-    createdBy,
-  }) => {
-    set({ isLoading: true, error: null });
-    try {
-      const response = await axios.post(`${API_URL}/add-new-user`, {
-        fullname,
-        username,
-        phoneNumber,
-        role,
-        rank,
-        createdBy,
-      });
-      set({
-        // user: response.data.user,
-        // isAuthenticated: true,
-        isLoading: false,
-      });
-    } catch (error) {
-      set({
-        error:
-          error.response?.data?.message ||
-          error.message ||
-          "Error adding new user",
-        isLoading: false,
-      });
-      throw error;
-    }
-  },
-
   //   user login
-  login: async (username, password) => {
+  login: async (email, password) => {
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${API_URL}/user-login`, {
-        username,
+        email,
         password,
       });
 

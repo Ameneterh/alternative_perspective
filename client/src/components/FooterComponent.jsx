@@ -25,21 +25,19 @@ export default function FooterComponent() {
               src={logoImage}
               className="w-10 md:w-20 bg-white p-1 rounded-md"
             />
-            <p className="text-xs font-bold mt-2">
+            <p className="font-bold text-[16px] text-orange-700">
               Our Mission:
-              <span className="block font-extralight">
+              <span className="text-xs block font-extralight text-white">
                 Lorem ipsum dolor sit amet consectetur adipisicing elit. Itaque
                 vel repellat reprehenderit.
               </span>
             </p>
           </div>
           <div>
-            <Link
-              to="/privacy-terms"
-              className="hover:text-blue-600 hover:underline underline-offset-2"
-            >
-              Privacy Policy | Terms of Use
-            </Link>
+            All Rights Reserved{" "}
+            <span className="block md:inline">
+              &copy; {new Date().getFullYear()} Alternative Perspectives
+            </span>
           </div>
         </div>
 
@@ -57,12 +55,21 @@ export default function FooterComponent() {
             </li>
             <li className="mt-2">
               <Link
-                to="/subscribe"
+                to="/terms-of-use"
                 className="hover:underline hover:font-semibold underline-offset-2"
               >
-                Subscribe
+                Terms of Use
               </Link>
             </li>
+            <li className="mt-2">
+              <Link
+                to="/privacy-policy"
+                className="hover:underline hover:font-semibold underline-offset-2"
+              >
+                Privacy Policy
+              </Link>
+            </li>
+
             <li className="mt-2">
               <p className="flex items-center gap-2">
                 <span className="text-orange-600">Follow us:</span>
@@ -120,10 +127,16 @@ export default function FooterComponent() {
           </ul>
         </div>
       </div>
-      <div className="mt-8 text-center text-sm border-t border-t-slate-800 w-full pt-5">
-        All Rights Reserved{" "}
-        <span className="block md:inline">
-          &copy; {new Date().getFullYear()} Alternative Perspectives
+      <div className="mt-8 text-center text-xs border-t border-t-slate-800 w-full pt-5">
+        Designed & Maintained by{" "}
+        <span className="block md:inline font-bold">
+          AMENE Terhemen{" "}
+          <Link
+            to="tel:+2348154230654"
+            className="font-light hover:text-blue-600 hover:underline underline-offset-2"
+          >
+            +2348154230654
+          </Link>
         </span>
       </div>
     </footer>

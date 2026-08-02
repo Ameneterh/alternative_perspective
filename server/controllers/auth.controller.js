@@ -6,11 +6,18 @@ import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js
 
 // add new user
 export const addUser = async (req, res) => {
-  const { fullname, username, phoneNumber, password, role } = req.body;
+  const { fullname, email, username, phoneNumber, password, role } = req.body;
 
   try {
     // check content from req.body
-    if (!fullname || !username || !phoneNumber || !password || !role) {
+    if (
+      !fullname ||
+      !email ||
+      !username ||
+      !phoneNumber ||
+      !password ||
+      !role
+    ) {
       throw new Error("All fields are required!");
     }
 
@@ -32,6 +39,7 @@ export const addUser = async (req, res) => {
     // save new user
     const user = await User.create({
       fullname,
+      email,
       username,
       usernameLower: username.toLowerCase(),
       phoneNumber,
@@ -47,66 +55,6 @@ export const addUser = async (req, res) => {
     res.status(201).json({
       success: true,
       message: "New User Created Successfully",
-      user: { ...user._doc, password: undefined },
-    });
-  } catch (error) {
-    if (error.code === 11000) {
-      return res.status(400).json({
-        success: false,
-        message: "Username already exists.",
-      });
-    }
-
-    throw error;
-    // res.status(400).json({ success: false, message: error.message });
-  }
-};
-
-// add handler
-export const addNewUser = async (req, res) => {
-  const { fullname, username, phoneNumber, role, rank, createdBy } = req.body;
-
-  try {
-    // check content from req.body
-    if (!fullname || !username || !phoneNumber || !role || !rank) {
-      throw new Error("All fields are required!");
-    }
-
-    // check if user already exists
-    const userAlreadyExists = await User.findOne({ username }).collation({
-      locale: "en",
-      strength: 2,
-    });
-
-    if (userAlreadyExists) {
-      return res
-        .status(400)
-        .json({ success: false, message: "User already exists" });
-    }
-
-    // generate temporary password
-    const tempPassword = "Today12345";
-
-    // hash password and generate verification token
-    const hashedPassword = await bcryptjs.hash(tempPassword, 10);
-
-    // save new user
-    const user = await User.create({
-      fullname,
-      username,
-      usernameLower: username.toLowerCase(),
-      phoneNumber,
-      password: hashedPassword,
-      role,
-      rank,
-      createdBy,
-    });
-
-    await user.save();
-
-    res.status(201).json({
-      success: true,
-      message: "New User Added Successfully",
       user: { ...user._doc, password: undefined },
     });
   } catch (error) {
@@ -270,12 +218,10 @@ export const updatePassword = async (req, res) => {
 
 // user login
 export const login = async (req, res) => {
-  const { username, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const user = await User.findOne({
-      usernameLower: username.toLowerCase(),
-    });
+    const user = await User.findOne({ email });
 
     if (!user) {
       return res
@@ -294,7 +240,7 @@ export const login = async (req, res) => {
     if (user.status !== "active") {
       return res.status(400).json({
         success: false,
-        message: "Your account is no longer active. Contact the Dept Office",
+        message: "Your account is no longer active. Contact Admin",
       });
     }
 

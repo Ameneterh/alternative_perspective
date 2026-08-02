@@ -1,74 +1,42 @@
 import mongoose from "mongoose";
 
-const reportSchema = new mongoose.Schema(
+const postSchema = new mongoose.Schema(
   {
-    workStation: {
+    postTitle: {
       type: String,
       required: true,
       trim: true,
     },
 
-    dutyType: {
+    slug: {
+      type: String,
+      required: true,
+      unique: true,
+      index: true,
+    },
+
+    postImage: {
+      type: String,
+      required: true,
+    },
+
+    category: {
       type: String,
       required: true,
       trim: true,
+      enum: ["news", "editorials", "features", "columns"],
     },
 
-    reportStartDate: {
-      type: Date,
-    },
-
-    reportEndDate: {
-      type: Date,
-    },
-
-    timeOfDuty: {
+    subCategory: {
       type: String,
       required: true,
       trim: true,
+      enum: ["economy", "health", "politics", "security"],
     },
 
-    dutyDateTime: {
+    postContent: {
       type: String,
       required: true,
-      trim: true,
-    },
-
-    reportingWeekStart: Date,
-
-    dutiesDone: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    challenges: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    observations: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    interventions: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    outOfStock: {
-      type: String,
-      required: true,
-      trim: true,
-    },
-
-    remarks: {
-      type: String,
-      trim: true,
     },
 
     comments: [
@@ -88,7 +56,12 @@ const reportSchema = new mongoose.Schema(
       },
     ],
 
-    reporter: {
+    readCount: {
+      type: Number,
+      default: 50,
+    },
+
+    writer: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
     },
@@ -96,6 +69,6 @@ const reportSchema = new mongoose.Schema(
   { timestamps: true },
 );
 
-const Report = mongoose.model("Report", reportSchema);
+const Post = mongoose.model("Post", postSchema);
 
-export default Report;
+export default Post;

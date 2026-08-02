@@ -1,6 +1,6 @@
 import authRouter from "./routes/auth.routes.js";
 import contactRouter from "./routes/contact.routes.js ";
-import reportRouter from "./routes/report.routes.js";
+import postRouter from "./routes/post.routes.js";
 import updateRouter from "./routes/update.routes.js";
 import express from "express";
 import dotenv from "dotenv";
@@ -29,7 +29,7 @@ mongoose
 
 app.use("/server/auth", authRouter);
 app.use("/server/contact", contactRouter);
-app.use("/server/report", reportRouter);
+app.use("/server/post", postRouter);
 app.use("/server/update", updateRouter);
 app.use(
   "/server/exports",

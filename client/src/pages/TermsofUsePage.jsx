@@ -2,15 +2,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import MainLayout from "../layout/MainLayout";
 import founder_image from "../assets/founder_image.jpeg";
-import { Link, useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { MdOutlineWhatsapp } from "react-icons/md";
 import { FaLinkedin, FaTwitter, FaFacebook } from "react-icons/fa";
 import { posts } from "../assets/static_assets";
 import PostThumbComponent from "../components/PostThumbComponent";
-import { useAuthStore } from "../store/authStore";
-import { usePostStore } from "../store/postStore";
-import { useState } from "react";
-import { useEffect } from "react";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -25,29 +21,7 @@ const fadeInUp = {
   }),
 };
 
-export default function EditorialPage() {
-  const { error, isLoading, logout, user } = useAuthStore();
-  const { getAllPosts } = usePostStore();
-  const { slug } = useParams();
-  const [comment, setComment] = useState("");
-  const [posts, setPosts] = useState([]);
-
-  const getPosts = async () => {
-    try {
-      const { posts } = await getAllPosts();
-      setPosts(posts.filter((post) => post.category === "editorials"));
-
-      return posts;
-    } catch (error) {
-      console.log(error);
-      return [];
-    }
-  };
-
-  useEffect(() => {
-    getPosts();
-  }, [user?._id]);
-
+export default function TermsofUsePage() {
   return (
     <MainLayout>
       <motion.section
@@ -57,7 +31,7 @@ export default function EditorialPage() {
         animate="visible"
       >
         <h1 className="text-red-950 font-bold text-xl md:text-3xl mt-4 md:mt-20 border-l-[6px] border-l-orange-600 pl-3 mb-6">
-          Editorials
+          Terms of Use
         </h1>
         <motion.section
           variants={fadeInUp}
@@ -67,15 +41,11 @@ export default function EditorialPage() {
         >
           {/* left side */}
           <motion.div className="w-full">
-            {posts.length > 0 ? (
-              <motion.div className="mt-6 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-                {posts?.map((post, index) => (
-                  <PostThumbComponent key={index} post={post} />
-                ))}
-              </motion.div>
-            ) : (
-              <p className="text-red-800 font-bold">No Editorial Posts Yet!</p>
-            )}
+            {/* <motion.div className="mt-6 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
+              {posts?.map((post, index) => (
+                <PostThumbComponent key={index} post={post} />
+              ))}
+            </motion.div> */}
           </motion.div>
         </motion.section>
       </motion.section>

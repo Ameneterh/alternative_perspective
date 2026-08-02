@@ -4,7 +4,7 @@ const userSchema = new mongoose.Schema(
   {
     role: {
       type: String,
-      enum: ["architect", "admin", "pharmacist", "pharmtech", "staff"],
+      enum: ["architect", "contributor", "editor", "staff", "user"],
       required: true,
     },
 
@@ -14,14 +14,7 @@ const userSchema = new mongoose.Schema(
       trim: true,
     },
 
-    username: {
-      type: String,
-      required: true,
-      trim: true,
-      minlength: 8,
-    },
-
-    usernameLower: {
+    email: {
       type: String,
       required: true,
       trim: true,
@@ -29,11 +22,17 @@ const userSchema = new mongoose.Schema(
       index: true,
     },
 
+    username: {
+      type: String,
+      required: true,
+      trim: true,
+      minlength: 6,
+    },
+
     phoneNumber: {
       type: String,
       unique: true,
       trim: true,
-      // sparse: true,
     },
 
     password: {
@@ -51,8 +50,8 @@ const userSchema = new mongoose.Schema(
 
     status: {
       type: String,
-      enum: ["active", "deleted"],
-      default: "active",
+      enum: ["pending", "active", "banned", "suspended"],
+      default: "pending",
     },
 
     lastLogin: {
@@ -68,29 +67,6 @@ const userSchema = new mongoose.Schema(
     isAdmin: {
       type: Boolean,
       default: false,
-    },
-
-    rank: {
-      type: String,
-      enum: [
-        "Pharmacy Technician",
-        "Senior Pharm Tech",
-        "Intern Pharmacist",
-        "Pharmacist 1",
-        "Senior Pharmacist",
-        "Principal Pharmacist",
-        "Chief Pharmacist",
-        "Asst Director",
-        "Dep Director",
-        "Director",
-      ],
-      required: true,
-    },
-
-    createdBy: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "User",
-      sparse: true,
     },
   },
   { timestamps: true },

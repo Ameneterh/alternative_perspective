@@ -32,6 +32,7 @@ import PasswordStrengthMeter from "../components/PasswordStrengthMeter";
 import MainLayout from "../layout/MainLayout";
 import { useAuthStore } from "../store/authStore";
 import { PhoneField } from "../components/Input.jsx";
+import { MdAlternateEmail } from "react-icons/md";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -51,10 +52,11 @@ export default function RegisterUser() {
 
   const [fullname, setFullname] = useState("");
   const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [phoneNumber, setUserPhone] = useState("");
   const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
   const [role, setRole] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const [avatar, setAvatar] = useState(null);
   const [addedAvatar, setAddedAvatar] = useState(null);
@@ -75,13 +77,14 @@ export default function RegisterUser() {
     try {
       await addUser({
         fullname,
+        email,
         username,
         phoneNumber,
         password,
         role,
       });
       toast.success("User Registered Successfully");
-      navigate("/user-dashboard?tab=dash");
+      navigate("/user-dashboard?tab=profile");
     } catch (error) {
       console.log(error);
       toast.error("Failed to register User.");
@@ -110,29 +113,34 @@ export default function RegisterUser() {
 
             <form onSubmit={handleRegisterUser} className="flex flex-col gap-3">
               {/* business owner details */}
-              <div className="flex items-center gap-2">
-                <p className="text-orange-500 text-xl md:text-2xl font-bold">
-                  Staff Details
+              <div className="flex items-center gap-2 mb-2">
+                <p className="text-red-700 text-xl md:text-2xl font-bold">
+                  User Details
                 </p>
-                <p className="h-[2px] bg-orange-500 w-full flex-1 hidden md:inline-block"></p>
+                <p className="h-[2px] bg-red-700 w-full flex-1 hidden md:inline-block"></p>
               </div>
 
               <div className="flex flex-col lg:flex-row gap-4">
                 <Input
                   icon={CircleUserRound}
                   type="text"
-                  // placeholder="Business Owner's Name"
-                  label="Staff Full Name"
+                  label="Full Name"
                   value={fullname}
                   onChange={(e) => setFullname(e.target.value)}
                 />
                 <Input
                   icon={CircleUserRound}
                   type="text"
-                  // placeholder="Business Owner's Email"
                   label="Username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
+                />
+                <Input
+                  icon={MdAlternateEmail}
+                  type="email"
+                  label="Email Address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
 
@@ -141,9 +149,9 @@ export default function RegisterUser() {
                   // onChange={(e) => setUserPhone(e.target.value)}
                   phoneNumber={phoneNumber}
                   setUserPhone={setUserPhone}
-                  label="Business Owner's Phone"
+                  label="Phone Number"
                 />
-                <div className="flex flex-col gap-3 w-full">
+                <div className="flex flex-col gap-3 w-full mt-2">
                   <div className="relative flex items-center w-full">
                     <Input
                       icon={Lock}
@@ -153,13 +161,13 @@ export default function RegisterUser() {
                       onChange={(e) => setPassword(e.target.value)}
                     />
                     <div
-                      className="absolute right-2 inset-y-0 cursor-pointer flex items-center mt-2"
+                      className="absolute right-2 inset-y-0 cursor-pointer flex items-center"
                       onClick={() => setShowPassword(!showPassword)}
                     >
                       {showPassword ? (
-                        <EyeOff className="size-5 text-green-500" />
+                        <EyeOff className="size-5 text-red-800" />
                       ) : (
-                        <Eye className="size-5 text-green-500" />
+                        <Eye className="size-5 text-red-800" />
                       )}
                     </div>
                   </div>
@@ -176,10 +184,10 @@ export default function RegisterUser() {
                     className="w-full pl-3 pr-3 py-[6px] bg-white rounded-lg border border-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 text-green-800 placeholder-green-800 transition duration-200"
                   >
                     <option value="">Select User Role</option>
-                    <option value="admin">Admin</option>
-                    <option value="staff">Admin Staff</option>
-                    <option value="pharmacist">Pharmacist</option>
-                    <option value="pharmtech">Pharm Tech</option>
+                    <option value="contributor">Contributor</option>
+                    <option value="editor">Editor</option>
+                    <option value="staff">Staff</option>
+                    <option value="user">User</option>
                   </select>
                 </div>
               </div>

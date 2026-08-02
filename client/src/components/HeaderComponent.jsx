@@ -38,8 +38,8 @@ import { useAuthStore } from "../store/authStore";
 import logo from "../assets/alter_persp_logo.png";
 import { IoMdCloseCircle } from "react-icons/io";
 import { TbMessage, TbStarFilled } from "react-icons/tb";
-import { Input } from "./Input";
-import { useReportsStore } from "../store/reportsStore";
+import Input from "./Input";
+import { usePostStore } from "../store/postStore";
 import { useUpdatesStore } from "../store/updatesStore";
 
 export default function HeaderComponent({ business }) {
@@ -92,7 +92,9 @@ export default function HeaderComponent({ business }) {
 
   const [visible, setVisible] = useState(true);
   const [showNav, setShowNav] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+  const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
+
+  const [email, setEmail] = useState("");
 
   const [comment, setComment] = useState("");
   const [notifications, setNotifications] = useState([]);
@@ -112,7 +114,7 @@ export default function HeaderComponent({ business }) {
 
   return (
     <header className="w-full bg-red-900 shadow fixed left-0 top-0 flex flex-col items-center justify-between z-50 text-white">
-      <div className="w-full px-5 md:px-20 py-2 sm:py-3 flex items-center justify-between bg-black h-10 overflow-x-auto">
+      <div className="w-full px-5 md:px-20 py-2 sm:py-3 flex items-center justify-between bg-black h-10">
         <div className="flex items-center gap-2">
           <Link
             to="#"
@@ -143,6 +145,7 @@ export default function HeaderComponent({ business }) {
         <button
           type="submit"
           className="bg-blue-600 hover:bg-blue-500 transition-all duration-300 px-3 py-1 rounded-md text-sm flex items-center gap-1"
+          onClick={() => setShowSubscriptionModal(true)}
         >
           <MdSubscriptions />
           Subscribe
@@ -190,23 +193,32 @@ export default function HeaderComponent({ business }) {
         {/* <div className="flex items-center gap-8"> */}
         {user && (
           <div className="bg-white px-2 py-1 rounded flex items-center gap-2">
-            <Link
-              to={"/user-dashboard?tab=notifications"}
-              className="flex items-center relative"
-            >
-              <img src={user.avatar} className="rounded-full h-8 w-8" />
-              <div className="p-2 rounded-full bg-red-600 absolute top-1 left-5 flex items-center justify-center text-white text-xs w-4 h-4 border border-white">
-                {/* {notifications?.unreadCount || 0} */}3
-              </div>
-            </Link>
-            <p className="font-bold text-md text-blue-800">
-              <Link
-                to={"/user-dashboard?tab=dash"}
-                className=" uppercase cursor-pointer underline underline-offset-2 hover:scale-110 transition-all duration-500"
-              >
-                {user.fullname.split(" ")[0]}
-              </Link>
-            </p>
+            {user?.role === "admin" ||
+            user?.role === "architect" ||
+            user?.role === "editor" ? (
+              <>
+                <Link
+                  to={"/user-dashboard?tab=notifications"}
+                  className="flex items-center relative"
+                >
+                  <img src={user?.avatar} className="rounded-full h-8 w-8" />
+                  <div className="p-2 rounded-full bg-red-600 absolute top-1 left-5 flex items-center justify-center text-white text-xs w-4 h-4 border border-white">
+                    {/* {notifications?.unreadCount || 0} */}3
+                  </div>
+                </Link>
+                <p className="font-bold text-md text-blue-800">
+                  <Link
+                    to={"/user-dashboard?tab=dash"}
+                    className=" uppercase cursor-pointer underline underline-offset-2 hover:scale-110 transition-all duration-500"
+                  >
+                    {user?.fullname?.split(" ")[0]}
+                  </Link>
+                </p>
+              </>
+            ) : (
+              <></>
+            )}
+
             <div className="flex items-center ml-4 bg-red-100 px-2 py-1 rounded">
               <MdLogout
                 className="text-lg text-red-600 cursor-pointer hover:scale-110 transition-all duration-300"
@@ -244,15 +256,21 @@ export default function HeaderComponent({ business }) {
                 />
               </div>
               <ul className="flex flex-col gap-5 bg-white/10 backdrop-blur-md shadow-lg rounded-xl mt-5 ">
-                <li>
-                  <Link to="/">LOGIN</Link>
-                </li>
-                <li>
-                  <Link to="/support">SUPPORT</Link>
-                </li>
-                <li>
-                  <Link to="/about">ABOUT APP</Link>
-                </li>
+                {menuItems.map((item) => (
+                  <li
+                    key={item.name}
+                    className="p-2 hover:bg-white/20 transition-all duration-300"
+                  >
+                    <NavLink
+                      end={item.isParent}
+                      to={item.path}
+                      className="text-white hover:text-blue-500"
+                    >
+                      {item.name}
+                    </NavLink>
+                  </li>
+                ))}
+
                 {user && (
                   <li>
                     <p
@@ -264,6 +282,87 @@ export default function HeaderComponent({ business }) {
                   </li>
                 )}
               </ul>
+            </div>
+          </motion.div>
+        ) : (
+          <></>
+        )}
+
+        {/* subscription modal */}
+        {showSubscriptionModal ? (
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            transition={{ duration: 0.5 }}
+            className="w-full h-screen bg-black/80 absolute top-0 right-0 opacity-90 flex items-center justify-center p-3"
+          >
+            <div className="flex flex-col p-2 w-full max-w-xl bg-white rounded">
+              <div className="w-full flex items-center justify-between">
+                <p className="text-lg font-bold text-red-700">
+                  Subscription Form
+                </p>
+                <div className="flex items-center gap-1 w-fit border rounded-full px-2 py-1 text-gray-600 text-xs">
+                  Close
+                  <MdClose
+                    className="text-red-700 cursor-pointer"
+                    size={20}
+                    onClick={() =>
+                      setShowSubscriptionModal(!showSubscriptionModal)
+                    }
+                  />
+                </div>
+              </div>
+
+              {/*  */}
+              <div className="flex flex-col gap-2 border-t border-gray-300 mt-2 pt-2">
+                <p className="text-black text-sm text-center leading-4">
+                  Enter your email address to subscribe and receive updates on
+                  the latest news, features, and columns from{" "}
+                  <b>Alternative Perspectives</b>. We respect your privacy and
+                  will not share your information with third parties.
+                </p>
+              </div>
+
+              {/* subscription form */}
+              <form className="flex flex-col md:flex-row gap-4 w-full mt-6">
+                <div className="flex flex-col w-full relative">
+                  <p className="text-xs bg-white absolute -top-2 left-2 px-1 z-50 text-gray-950">
+                    Your email address:
+                  </p>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    // placeholder="Enter your email address"
+                    className="border border-gray-300 rounded px-1 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400 text-sm text-black"
+                  />
+                </div>
+                <button
+                  type="submit"
+                  className="text-sm bg-red-700 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors duration-300"
+                >
+                  Subscribe
+                </button>
+              </form>
+
+              <p className="text-sm text-black mt-3 text-center">
+                By subscribing, you agree to our{" "}
+                <Link
+                  to="privacy-policy"
+                  className="text-blue-600 underline underline-offset-2 font-bold"
+                >
+                  Privacy Policy
+                </Link>
+                , and{" "}
+                <Link
+                  to="terms-of-use"
+                  className="text-blue-600 underline underline-offset-2 font-bold"
+                >
+                  Terms of Use
+                </Link>
+                .
+              </p>
             </div>
           </motion.div>
         ) : (

@@ -54,9 +54,6 @@ export default function DashSidebar() {
     getUpdates();
   }, [user?._id]);
 
-  console.log(unreadCount);
-  console.log(updates);
-
   return (
     // <div className="min-h-screen w-full">
     <Sidebar className="w-full md:min-h-screen flex flex-col justify-between">
@@ -81,7 +78,7 @@ export default function DashSidebar() {
                   className="capitalize"
                   label={
                     <span className="text-nowrap bg-gray-600 text-white px-2 py-[6px] rounded-md text-xs capitalize">
-                      {user.rank
+                      {user.role
                         .split(" ")
                         .map((word) => word.slice(0, 5))
                         .join(" ")}
@@ -108,13 +105,13 @@ export default function DashSidebar() {
                 </Sidebar.Item>
               </Link>
 
-              <Link to="/user-dashboard?tab=reports">
+              <Link to="/user-dashboard?tab=posts">
                 <Sidebar.Item
-                  active={tab === "reports"}
+                  active={tab === "posts"}
                   icon={HiDocumentText}
                   as="div"
                 >
-                  View Reports
+                  View Posts
                 </Sidebar.Item>
               </Link>
             </>
@@ -131,41 +128,13 @@ export default function DashSidebar() {
                   View Users
                 </Sidebar.Item>
               </Link>
-            </>
-          )}
-
-          {(user.role === "pharmacist" || user.role === "pharmtech") && (
-            <>
-              <Link to="/user-dashboard?tab=send-report">
+              <Link to="/user-dashboard?tab=add-content">
                 <Sidebar.Item
-                  active={tab === "send-report"}
+                  active={tab === "add-content"}
                   icon={MdOutlineCreateNewFolder}
                   as="div"
                 >
-                  Send Report
-                </Sidebar.Item>
-              </Link>
-            </>
-          )}
-
-          {user.isAdmin && (
-            <>
-              <Link to="/user-dashboard?tab=add-user">
-                <Sidebar.Item
-                  active={tab === "add-user"}
-                  icon={FaRegAddressBook}
-                  as="div"
-                >
-                  Add User
-                </Sidebar.Item>
-              </Link>
-              <Link to="/user-dashboard?tab=generate-report">
-                <Sidebar.Item
-                  active={tab === "generate-report"}
-                  icon={TbReportAnalytics}
-                  as="div"
-                >
-                  Generate Report
+                  Add Content
                 </Sidebar.Item>
               </Link>
             </>

@@ -14,8 +14,7 @@ import AdminDashboardComponent, {
 } from "./AdminDashboardComponent";
 import { UserDashboardComponents } from "./AdminDashboardComponent";
 import Divider from "./Divider";
-import { useReportsStore } from "../store/reportsStore";
-import ReadReport from "./ReadReport";
+import { usePostStore } from "../store/postStore";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -44,7 +43,7 @@ export default function DashboardComponent() {
 
   const { user } = useAuthStore();
   const { getAllUsers } = useAuthStore();
-  const { getAllReports } = useReportsStore();
+  const { getAllPosts } = usePostStore();
 
   const [showModal, setShowModal] = useState(false);
   const [selectedReport, setSelectedReport] = useState(null);
@@ -269,13 +268,13 @@ export default function DashboardComponent() {
       </motion.div>
 
       {/* modal to update user status */}
-      {showModal && (
+      {/* {showModal && (
         <ReadReport
           selectedReport={selectedReport}
           showModal={showModal}
           setShowModal={setShowModal}
         />
-      )}
+      )} */}
     </div>
   );
 }

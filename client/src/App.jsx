@@ -20,6 +20,9 @@ import NewsPage from "./pages/NewsPage.jsx";
 import FeaturesPage from "./pages/FeaturesPage.jsx";
 import EditorialPage from "./pages/EditorialPage.jsx";
 import ColumnsPage from "./pages/ColumnsPage.jsx";
+import FreqAskedQuestions from "./pages/FreqAskedQuestions.jsx";
+import TermsofUsePage from "./pages/TermsofUsePage.jsx";
+import PrivacyPolicyPage from "./pages/PrivacyPolicyPage.jsx";
 
 // protected routes
 const ProtectedRoute = ({ children }) => {
@@ -90,16 +93,6 @@ function App() {
             )
           }
         />
-
-        <Route path="/contact" element={<ContactUs />} />
-        <Route path="/about" element={<AboutUsComponent />} />
-        <Route path="/news" element={<NewsPage />} />
-        <Route path="/features" element={<FeaturesPage />} />
-        <Route path="/editorial" element={<EditorialPage />} />
-        <Route path="/columns" element={<ColumnsPage />} />
-        <Route path="/post/:slug" element={<PostDisplayPage />} />
-        <Route path="*" element={<NotFoundPage />} />
-
         {/* protected routes */}
         <Route
           path="/user-dashboard"
@@ -137,6 +130,19 @@ function App() {
             </RedirectAuthenticatedUser>
           }
         />
+
+        {/* unprotected routes */}
+        <Route path="/contact" element={<ContactUs />} />
+        <Route path="/about" element={<AboutUsComponent />} />
+        <Route path="/post/:slug" element={<PostDisplayPage />} />
+        <Route path="/news" element={<NewsPage />} />
+        <Route path="/features" element={<FeaturesPage />} />
+        <Route path="/editorial" element={<EditorialPage />} />
+        <Route path="/columns" element={<ColumnsPage />} />
+        <Route path="/faqs" element={<FreqAskedQuestions />} />
+        <Route path="/terms-of-use" element={<TermsofUsePage />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicyPage />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
 
       <Toaster />

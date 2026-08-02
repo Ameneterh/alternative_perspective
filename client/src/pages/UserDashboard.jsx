@@ -8,11 +8,9 @@ import DashSidebar from "../components/DashSidebar";
 import DashboardComponent from "../components/DashboardComponent";
 import DashUsers from "../components/DashUsers";
 import DashProfile from "../components/DashProfile";
-import SendReport from "./SendReport";
-import DashReports from "../components/DashReports";
+import AddContent from "./AddContent";
+import DashPosts from "../components/DashPosts";
 import DashAddUser from "../components/DashAddUser";
-import DashGenerateReport from "../components/DashGenerateReport";
-import DashGeneralInformation from "../components/DashGeneralInformation";
 
 export default function UserDashboard() {
   const { user, logout, isLoading } = useAuthStore();
@@ -35,12 +33,8 @@ export default function UserDashboard() {
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
         transition={{ duration: 0.5 }}
-        className="w-full min-h-screen mt-20 backdrop-filter backdrop-blur-lg shadow-2xl flex flex-col md:flex-row"
+        className="w-full min-h-screen mt-20 flex flex-col md:flex-row"
       >
-        {/* <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-green-400 to-emerald-600 text-transparent bg-clip-text">
-          Dashboard
-        </h2> */}
-
         {/* Sidebar */}
         <div className="">
           <DashSidebar />
@@ -56,19 +50,16 @@ export default function UserDashboard() {
         {tab === "dash" && <DashboardComponent />}
 
         {/* for invoice creation */}
-        {tab === "send-report" && <SendReport />}
+        {tab === "add-content" && <AddContent />}
 
         {/* for adding a new handler */}
         {tab === "add-user" && <DashAddUser />}
 
-        {/* view clients */}
-        {tab === "general-information" && <DashGeneralInformation />}
-
         {/* view business */}
-        {tab === "reports" && <DashReports />}
+        {tab === "posts" && <DashPosts />}
 
         {/* generate reports */}
-        {tab === "generate-report" && <DashGenerateReport />}
+        {/* {tab === "generate-report" && <DashGenerateReport />} */}
       </motion.div>
     </MainLayout>
   );

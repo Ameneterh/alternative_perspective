@@ -25,8 +25,7 @@ import { useAuthStore } from "../store/authStore";
 import { Input } from "./Input";
 import { MdFilterList } from "react-icons/md";
 import { ReportFiltersComponent } from "./DashFilterComponent";
-import { useReportsStore } from "../store/reportsStore";
-import ReadReport from "./ReadReport";
+import { usePostStore } from "../store/postStore";
 import { pdf } from "@react-pdf/renderer";
 import ReportsPDF from "./ReportsPDF";
 import Spinner from "./Spinner";
@@ -44,20 +43,9 @@ const fadeInUp = {
   }),
 };
 
-export default function DashReports() {
-  const getLastSunday = () => {
-    const today = new Date();
-    const day = today.getDay(); // Sunday = 0, Monday = 1, ... Saturday = 6
-
-    const lastSunday = new Date(today);
-    lastSunday.setDate(today.getDate() - day);
-    lastSunday.setHours(0, 0, 0, 0);
-
-    return lastSunday.toISOString().split("T")[0];
-  };
-
+export default function DashPosts() {
   const { user } = useAuthStore();
-  const { getAllReports, getReportFields, isLoading } = useReportsStore();
+  const { getAllPosts, isLoading } = usePostStore();
 
   // sorting and filtering states
   const [searchTerm, setSearchTerm] = useState("");
@@ -70,12 +58,11 @@ export default function DashReports() {
   const [formData, setFormData] = useState({});
 
   // others
+  const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState("");
   const [filteredFields, setFilteredFields] = useState([]);
-  const [reports, setReports] = useState([]);
   const [visibleCount, setVisibleCount] = useState(10);
   const [startIndex, setStartIndex] = useState(0);
-  const [startDate, setStartDate] = useState(getLastSunday());
   const [endDate, setEndDate] = useState(
     new Date().toISOString().split("T")[0],
   );
@@ -88,14 +75,14 @@ export default function DashReports() {
   const [selectedReport, setSelectedReport] = useState(null);
   const [pdfLoading, setPDFLoading] = useState(false);
 
-  const getReports = async ({ startDate, endDate }) => {
+  const getPosts = async () => {
     try {
-      const { reports } = await getAllReports({ startDate, endDate });
-      setReports(reports);
+      const { posts } = await getAllPosts();
+      setPosts(posts);
       setStartIndex(0);
       setVisibleCount(10);
 
-      return reports;
+      return posts;
     } catch (error) {
       console.log(error);
       return [];
@@ -103,7 +90,7 @@ export default function DashReports() {
   };
 
   useEffect(() => {
-    getReports({ startDate, endDate });
+    getPosts();
   }, [user?._id]);
 
   const generatePDF = async () => {
@@ -156,12 +143,12 @@ export default function DashReports() {
 
   console.log(filteredFields);
 
-  const selectedReports = reports
+  const selectedReports = posts
     .filter((report) => {
       const search = searchTerm.toLowerCase();
 
       const matchesSearch =
-        report?.reporter?.fullname?.toLowerCase().includes(search) ||
+        report?.writer?.fullname?.toLowerCase().includes(search) ||
         new Date(user?.createdAt)
           .toLocaleDateString("en-GB")
           .toLowerCase()
@@ -177,8 +164,8 @@ export default function DashReports() {
           result = new Date(a.createdAt) - new Date(b.createdAt);
           break;
 
-        case "reporter":
-          result = a.reporter?.fullname.localeCompare(b.reporter?.fullname);
+        case "writer":
+          result = a.writer?.fullname.localeCompare(b.writer?.fullname);
           break;
 
         case "status":
@@ -195,7 +182,7 @@ export default function DashReports() {
   if (isLoading) return <Spinner />;
 
   return (
-    <div className="w-full table-auto overflow-x-scroll md:mt-4 md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 flex gap-5 mt-8 sm:mt-0">
+    <div className="w-full table-auto overflow-x-scroll md:mt-4 md:mx-auto p-3 scrollbar scrollbar-track-slate-100 scrollbar-thumb-slate-300 dark:scrollbar-track-slate-700 dark:scrollbar-thumb-slate-500 flex gap-5 mt-8 sm:mt-20">
       {showFilters && (
         <ReportFiltersComponent
           showFilters={showFilters}
@@ -210,8 +197,8 @@ export default function DashReports() {
         />
       )}
 
-      <div className="flex flex-col gap-5 w-full">
-        <h1 className="text-xl font-extrabold">Reports List:</h1>
+      <div className="flex flex-col gap-5 w-full mt-5">
+        <h1 className="text-xl font-extrabold">Posts List:</h1>
 
         <div className="flex flex-col gap-2">
           <div className="flex gap-5 items-center">
@@ -235,108 +222,6 @@ export default function DashReports() {
                 onChange={(e) => setSearchTerm(e.target.value)}
               />
             </div>
-
-            {/* select reports period */}
-            <div className="flex items-center gap-3">
-              {/* <div className="flex flex-col"> */}
-              {/* <p className="text-xs">Start Date</p> */}
-              <input
-                type="date"
-                value={startDate}
-                onChange={(e) => setStartDate(e.target.value)}
-                className="text-sm h-9 px-1"
-              />
-              {/* </div> */}
-              to
-              {/* <div className="flex flex-col"> */}
-              {/* <p className="text-xs">End Date</p> */}
-              <input
-                type="date"
-                value={endDate}
-                onChange={(e) => setEndDate(e.target.value)}
-                className="text-sm h-9 px-1"
-              />
-              {/* </div> */}
-            </div>
-
-            <button
-              onClick={() => getReports({ startDate, endDate })}
-              className="flex items-center gap-2 text-xs bg-blue-700 hover:bg-opacity-90 rounded px-3 py-2 text-white"
-            >
-              {isLoading ? (
-                <span className="flex items-center gap-1">
-                  <Loader
-                    size={18}
-                    className="animate-spin mx-auto text-white font-bold"
-                  />
-                  <p>Searching ...</p>
-                </span>
-              ) : (
-                <span className="flex items-center gap-1 text-white">
-                  <Search size={18} className="text-white font-bold" />
-                  <p>Search</p>
-                </span>
-              )}
-            </button>
-
-            <button
-              onClick={generatePDF}
-              // onClick={() => handleOpenReadReportModal({ startDate, endDate })}
-              className="flex items-center gap-2 text-xs bg-blue-700 hover:bg-opacity-90 rounded px-3 py-2 text-white"
-            >
-              {pdfLoading ? (
-                <span className="flex items-center gap-1">
-                  <Loader
-                    size={18}
-                    className="animate-spin mx-auto text-white font-bold"
-                  />
-                  <p>Reading ...</p>
-                </span>
-              ) : (
-                <span className="flex items-center gap-1 text-white">
-                  <ScanText size={18} className="text-white font-bold" />
-                  <span className="text-nowrap">Read All</span>
-                </span>
-              )}
-            </button>
-          </div>
-
-          {/* second layer */}
-          <div className="flex items-center p-2 gap-2 text-blue-900 rounded min-w-fit">
-            <p className="text-sm text-black font-semibold">Quick Links: </p>
-            <div className="flex items-center gap-2 rounded min-w-fit drop-shadow-sm text-sm bg-slate-100">
-              <button
-                className="flex items-center gap-2 px-3 hover:underline underline-offset-2 hover:text-gray-950 py-1 text-nowrap"
-                // onClick={() => handleViewDetails("remarks")}
-                onClick={() => handleViewDetails("remarks")}
-              >
-                Remarks
-              </button>
-              <button
-                className="flex items-center gap-2 px-3 hover:underline underline-offset-2 hover:text-gray-950 py-1 text-nowrap"
-                onClick={() => handleViewDetails("outOfStock")}
-              >
-                Out of Stock
-              </button>
-              <button
-                className="flex items-center gap-2 px-3 hover:underline underline-offset-2 hover:text-gray-950 py-1 text-nowrap"
-                onClick={() => handleViewDetails("interventions")}
-              >
-                Reviews
-              </button>
-              <button
-                className="flex items-center gap-2 px-3 hover:underline underline-offset-2 hover:text-gray-950 py-1 text-nowrap"
-                onClick={() => handleViewDetails("observations")}
-              >
-                Observations
-              </button>
-              <button
-                className="flex items-center gap-2 px-3 hover:underline underline-offset-2 hover:text-gray-950 py-1 text-nowrap"
-                onClick={() => handleViewDetails("challenges")}
-              >
-                Challenges
-              </button>
-            </div>
           </div>
         </div>
 
@@ -352,19 +237,22 @@ export default function DashReports() {
                 <thead className=" bg-gray-500">
                   <tr className="border-b-[2px] border-b-black text-sm">
                     <th className="text-left px-4 py-1 text-nowrap">
-                      Report Date
+                      Post Date
                     </th>
                     <th className="text-left px-4 py-1 text-nowrap">
-                      Created At
+                      Post Image
                     </th>
                     <th className="text-left px-4 py-1 text-nowrap">
-                      Reporter/Work Station Details
+                      Post Title & Content Summary
                     </th>
                     <th className="text-left px-4 py-1 text-nowrap">
-                      Comments
+                      Category/Sub Category
                     </th>
                     <th className="text-left px-4 py-1 text-nowrap">
-                      Report Details
+                      Read Count
+                    </th>
+                    <th className="text-left px-4 py-1 text-nowrap">
+                      Comment Count
                     </th>
                   </tr>
                 </thead>
@@ -377,21 +265,6 @@ export default function DashReports() {
                         key={business._id}
                         className="border-b border-b-gray-600"
                       >
-                        <td className="px-4 py-1 text-sm align-top">
-                          {business.dutyDateTime
-                            ? new Date(business.dutyDateTime).toLocaleString(
-                                "en-US",
-                                {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                  // hour: "numeric",
-                                  // minute: "2-digit",
-                                  // hour12: true,
-                                },
-                              )
-                            : ""}
-                        </td>
                         <td className="px-4 py-1 text-sm align-top">
                           {business.createdAt
                             ? new Date(business.createdAt).toLocaleString(
@@ -408,51 +281,28 @@ export default function DashReports() {
                             : ""}
                         </td>
                         <td className="px-4 py-1 align-top">
-                          <div className="flex flex-col lg:flex-row items-start gap-2">
-                            <div className="flex flex-col text-sm border-r border-gray-800 pr-2">
-                              <p className="flex items-center gap-1">
-                                <span className="font-semibold flex items-center gap-1 text-nowrap line-clamp-1">
-                                  <span className="font-semibold">
-                                    {business?.reporter?.role === "admin"
-                                      ? "Pharm Mrs"
-                                      : business?.reporter?.role ===
-                                          "pharmacist"
-                                        ? "Pharm"
-                                        : "Pharm Tech"}
-                                  </span>{" "}
-                                  <span className="flex items-center capitalize">
-                                    {business?.reporter?.fullname}
-                                  </span>
-                                </span>
-                              </p>
-
-                              <span className={`text-sm cursor-pointer`}>
-                                Work Station:{" "}
-                                <span className="capitalize font-bold">
-                                  {business.workStation}
-                                </span>
-                              </span>
-                            </div>
-
-                            <div className="flex flex-col text-sm">
-                              <span className={`text-sm cursor-pointer`}>
-                                Duty Type:{" "}
-                                <span className="capitalize font-bold">
-                                  {business.dutyType}
-                                </span>
-                              </span>
-                              <span className={`text-sm cursor-pointer`}>
-                                Time of Duty:{" "}
-                                <span className="capitalize font-bold">
-                                  {business.timeOfDuty}
-                                </span>
-                              </span>
-                            </div>
-                          </div>
+                          <img
+                            src={business?.postImage}
+                            alt={business?._id}
+                            className="w-20"
+                          />
                         </td>
-                        <td>
+                        <td className="px-4 py-1 align-top">
+                          <Link
+                            to={`/post/${business?.slug}`}
+                            className="text-blue-600 hover:underline underline-offset-2"
+                          >
+                            {business?.postTitle}
+                          </Link>
+                        </td>
+                        <td className="px-4 py-1 align-top capitalize">
+                          {business?.category}; {business?.subCategory}
+                        </td>
+                        <td className="flex items-center gap-2 px-4 py-1 text-sm capitalize align-top">
+                          {business?.readCount} read
+                        </td>
+                        <td className="px-4 py-1 align-top">
                           <div className="flex items-center gap-1">
-                            <MessageSquareText size={16} />
                             <span>{business?.comments?.length}</span>
                             <span className="text-xs">
                               {business?.comments?.length === 1
@@ -460,17 +310,6 @@ export default function DashReports() {
                                 : "comments"}
                             </span>
                           </div>
-                          {}
-                        </td>
-
-                        <td className="flex items-center gap-2 px-4 py-1 text-sm capitalize align-top">
-                          <span
-                            className="flex items-center gap-2 px-2 py-1 bg-blue-700 text-white rounded cursor-pointer w-fit hover:scale-110 hover:bg-blue-900 transition-all duration-300"
-                            title="Read Report"
-                            onClick={() => handleOpenModal(business)}
-                          >
-                            <MailOpen size={16} />
-                          </span>
                         </td>
                       </tr>
                     ))}
@@ -518,7 +357,7 @@ export default function DashReports() {
       {/* {showReadReportsModal && <ReadManyReport reports={reports} />} */}
 
       {/* modal to update user status */}
-      {showModal && (
+      {/* {showModal && (
         <ReadReport
           selectedReport={selectedReport}
           showModal={showModal}
@@ -527,7 +366,7 @@ export default function DashReports() {
           startDate={startDate}
           endDate={endDate}
         />
-      )}
+      )} */}
 
       {/* modal to update user status */}
       {showNewModal && (

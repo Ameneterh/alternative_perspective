@@ -7,7 +7,6 @@ import {
   logout,
   resetPassword,
   CheckAuth,
-  addNewUser,
   getUsers,
   addUser,
   updateUser,
@@ -21,7 +20,6 @@ router.get("/check-auth", verifyToken, CheckAuth);
 router.post("/add-user", addUser);
 router.post("/user-login", login);
 
-router.post("/add-new-user", addNewUser);
 router.put("/update-user/:userId", verifyToken, updateUser);
 router.put("/update-password/:userId", verifyToken, updatePassword);
 

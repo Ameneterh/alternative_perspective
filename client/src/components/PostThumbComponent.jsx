@@ -29,19 +29,19 @@ export default function PostThumbComponent({ post }) {
     >
       <Link to={`/post/${post.slug}`} className="w-full h-full group">
         <img
-          src={post.image}
-          alt={post.title}
+          src={post.postImage}
+          alt={post.postTitle}
           className="w-full h-40 object-cover overflow-hidden"
         />
-        <motion.div className="w-full p-2 flex flex-col">
-          <h1 className="w-full text-lg md:text-xl font-bold line-clamp-3 leading-[4px]">
-            {post.title}
+        <motion.div className="w-full flex flex-col">
+          <h1 className="w-full text-lg md:text-xl font-bold line-clamp-3 py-2 px-2">
+            {post.postTitle}
           </h1>
-          <div className="flex items-center justify-between mt-1">
+          <div className="flex items-center justify-between mt-1 bg-red-100 p-2">
             <p className="text-xs text-gray-600">
               {new Date(post?.createdAt).toLocaleString("en-GB")}
             </p>
-            <p className="text-xs text-gray-800">Ready by {post.readCount}</p>
+            <p className="text-xs text-gray-800">Read by {post.readCount}</p>
           </div>
         </motion.div>
       </Link>
