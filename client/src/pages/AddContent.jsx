@@ -56,11 +56,10 @@ export default function AddContent() {
     try {
       await savePost({
         postTitle: formData.postTitle,
-        // postImage: formData.postImage,
-        postImage:
-          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqj88DlUTf3eWQ3k0J-x2y3WJ_4CU4ScXrJVdWq3GxBoSmSR2Q8UNlcz0&s=10",
-        category: formData.category,
-        subCategory: formData.subCategory,
+        // postImage:
+        //   "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSqj88DlUTf3eWQ3k0J-x2y3WJ_4CU4ScXrJVdWq3GxBoSmSR2Q8UNlcz0&s=10",
+        // category: formData.category,
+        // subCategory: formData.subCategory,
         postContent: formData.postContent,
         writer: user._id,
       });
@@ -93,7 +92,7 @@ export default function AddContent() {
 
         <form onSubmit={saveNewPost}>
           <div className="flex flex-col justify-center gap-y-5">
-            <article className="flex flex-col gap-10">
+            <article className="flex flex-col gap-5">
               {/* post title */}
               <div className="flex flex-col sm:flex-row gap-3 relative w-full border-none">
                 <p className="text-xs bg-white font-semibold absolute -top-2 px-1 flex items-center gap-[2px]">
@@ -114,7 +113,7 @@ export default function AddContent() {
               </div>
 
               <div className="flex flex-col md:flex-row items-center gap-4">
-                <div className="flex flex-col sm:flex-row gap-3 relative w-full border-none">
+                {/* <div className="flex flex-col sm:flex-row gap-3 relative w-full border-none">
                   <p className="text-xs bg-white font-semibold absolute -top-2 px-1 flex items-center gap-[2px]">
                     Post Image
                     <span className="text-red-600 font-bold ml-1">*</span>
@@ -123,16 +122,15 @@ export default function AddContent() {
                     type="file"
                     className="w-full sm:w-1/4 pl-2 pr-3 py-2 border-b border-b-gray-700 placeholder-gray-400 transition duration-200 flex-1 text-xs outline-none ring-0 focus:ring-0 focus:outline-none focus:border-transparent focus:border-b-2 focus:border-b-red-700 border-transparent"
                   />
-                </div>
+                </div> */}
 
                 {/* select post category */}
-                <div className="flex flex-col sm:flex-row gap-3 relative w-full border-none">
+                {/* <div className="flex flex-col sm:flex-row gap-3 relative w-full border-none">
                   <p className="text-xs bg-white font-semibold absolute -top-2 px-1 flex items-center gap-[2px]">
                     Post Category
                     <span className="text-red-600 font-bold ml-1">*</span>
                   </p>
                   <select
-                    // value={formData.category}
                     onChange={(e) =>
                       setFormData({
                         ...formData,
@@ -147,10 +145,10 @@ export default function AddContent() {
                     <option value="features">Features</option>
                     <option value="news">News</option>
                   </select>
-                </div>
+                </div> */}
 
                 {/* select post subcategory */}
-                <div className="flex flex-col sm:flex-row gap-3 relative w-full border-none">
+                {/* <div className="flex flex-col sm:flex-row gap-3 relative w-full border-none">
                   <p className="text-xs bg-white font-semibold absolute -top-2 px-1 flex items-center gap-[2px]">
                     Post Sub Category
                     <span className="text-red-600 font-bold ml-1">*</span>
@@ -171,7 +169,7 @@ export default function AddContent() {
                     <option value="politics">Politics</option>
                     <option value="security">Security</option>
                   </select>
-                </div>
+                </div>*/}
               </div>
 
               {/* post content */}
@@ -180,18 +178,7 @@ export default function AddContent() {
                   Post Content
                   <span className="text-red-600 font-bold ml-1">*</span>
                 </p>
-                {/* <textarea
-                value={formData.postContent}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    postContent: e.target.value,
-                  })
-                }
-                rows={20}
-                placeholder="Enter post content as it should appear when published"
-                className="w-full sm:w-1/4 pl-2 pr-3 py-2 border-b border-b-gray-700 placeholder-gray-400 transition duration-200 flex-1 text-xs outline-none ring-0 focus:ring-0 focus:outline-none focus:border-transparent focus:border-b-2 focus:border-b-red-700 border-transparent"
-              /> */}
+
                 <ReactQuill
                   theme="snow"
                   modules={modules}

@@ -1,5 +1,6 @@
 import authRouter from "./routes/auth.routes.js";
 import contactRouter from "./routes/contact.routes.js ";
+import subscriptionRouter from "./routes/subscription.routes.js";
 import postRouter from "./routes/post.routes.js";
 import updateRouter from "./routes/update.routes.js";
 import express from "express";
@@ -29,6 +30,7 @@ mongoose
 
 app.use("/server/auth", authRouter);
 app.use("/server/contact", contactRouter);
+app.use("/server/subscription", subscriptionRouter);
 app.use("/server/post", postRouter);
 app.use("/server/update", updateRouter);
 app.use(

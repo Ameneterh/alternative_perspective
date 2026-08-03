@@ -41,6 +41,8 @@ import { TbMessage, TbStarFilled } from "react-icons/tb";
 import Input from "./Input";
 import { usePostStore } from "../store/postStore";
 import { useUpdatesStore } from "../store/updatesStore";
+import toast from "react-hot-toast";
+import { useSubscriptionStore } from "../store/subscriptionStore";
 
 export default function HeaderComponent({ business }) {
   const menuItems = [
@@ -51,29 +53,29 @@ export default function HeaderComponent({ business }) {
       isParent: true,
     },
     {
-      name: "News",
-      path: "/news",
+      name: "Articles",
+      path: "/articles",
       icon: <FaNewspaper />,
       isParent: false,
     },
-    {
-      name: "Features",
-      path: "/features",
-      icon: <MdFeaturedPlayList />,
-      isParent: false,
-    },
-    {
-      name: "Editorial",
-      path: "/editorial",
-      icon: <FaRegCreditCard />,
-      isParent: false,
-    },
-    {
-      name: "Columns",
-      path: "/columns",
-      icon: <FaColumns />,
-      isParent: false,
-    },
+    // {
+    //   name: "Features",
+    //   path: "/features",
+    //   icon: <MdFeaturedPlayList />,
+    //   isParent: false,
+    // },
+    // {
+    //   name: "Editorial",
+    //   path: "/editorial",
+    //   icon: <FaRegCreditCard />,
+    //   isParent: false,
+    // },
+    // {
+    //   name: "Columns",
+    //   path: "/columns",
+    //   icon: <FaColumns />,
+    //   isParent: false,
+    // },
     {
       name: "About",
       path: "/about",
@@ -95,11 +97,14 @@ export default function HeaderComponent({ business }) {
   const [showSubscriptionModal, setShowSubscriptionModal] = useState(false);
 
   const [email, setEmail] = useState("");
+  const [fullname, setFullname] = useState("");
+  const [isChecked, setIsChecked] = useState(false);
 
   const [comment, setComment] = useState("");
   const [notifications, setNotifications] = useState([]);
 
   const { error, isLoading, logout, user } = useAuthStore();
+  const { subscribe } = useSubscriptionStore();
   const { getAllUpdates, readUpdate, unreadCount } = useUpdatesStore();
 
   const confirmLogout = () => {
@@ -109,6 +114,24 @@ export default function HeaderComponent({ business }) {
       // setShowModal(false);
     } catch (error) {
       console.log("Error logging out!");
+    }
+  };
+
+  const handleSubscribe = async (e) => {
+    e.preventDefault();
+
+    if (!isChecked) {
+      toast.error("You must accept terms to continue!");
+      return;
+    }
+
+    try {
+      await subscribe({ subscriber: fullname, email, acceptance: isChecked });
+      toast.success("Subscription Successfully Done");
+      setShowSubscriptionModal(false);
+    } catch (error) {
+      console.log(error);
+      toast.error("Failed to subscribe; please try again!");
     }
   };
 
@@ -325,7 +348,22 @@ export default function HeaderComponent({ business }) {
               </div>
 
               {/* subscription form */}
-              <form className="flex flex-col md:flex-row gap-4 w-full mt-6">
+              <form
+                className="flex flex-col md:flex-row gap-4 w-full mt-6"
+                onSubmit={handleSubscribe}
+              >
+                <div className="flex flex-col w-full relative">
+                  <p className="text-xs bg-white absolute -top-2 left-2 px-1 z-50 text-gray-950">
+                    Your Name:
+                  </p>
+                  <input
+                    type="text"
+                    value={fullname}
+                    onChange={(e) => setFullname(e.target.value)}
+                    // placeholder="Enter your email address"
+                    className="border border-gray-300 rounded px-1 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400 text-sm text-black"
+                  />
+                </div>
                 <div className="flex flex-col w-full relative">
                   <p className="text-xs bg-white absolute -top-2 left-2 px-1 z-50 text-gray-950">
                     Your email address:
@@ -338,15 +376,27 @@ export default function HeaderComponent({ business }) {
                     className="border border-gray-300 rounded px-1 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 placeholder:text-gray-400 text-sm text-black"
                   />
                 </div>
+
                 <button
                   type="submit"
-                  className="text-sm bg-red-700 text-white px-4 py-2 rounded hover:bg-red-600 transition-colors duration-300"
+                  disabled={!isChecked}
+                  className={`text-sm px-4 py-2 rounded transition-colors duration-300 ${
+                    isChecked
+                      ? "bg-red-700 hover:bg-red-600 text-white cursor-pointer"
+                      : "bg-gray-400 text-gray-200 cursor-not-allowed"
+                  }`}
                 >
                   Subscribe
                 </button>
               </form>
 
-              <p className="text-sm text-black mt-3 text-center">
+              <p className="flex items-center text-sm text-black mt-3 text-center">
+                <input
+                  type="checkbox"
+                  className="mr-1"
+                  checked={isChecked}
+                  onChange={(e) => setIsChecked(e.target.checked)}
+                />{" "}
                 By subscribing, you agree to our{" "}
                 <Link
                   to="privacy-policy"

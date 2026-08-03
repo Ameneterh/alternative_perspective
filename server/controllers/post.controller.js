@@ -8,18 +8,10 @@ import Post from "../models/post.model.js";
 // save post
 export const savePost = async (req, res) => {
   try {
-    const { postTitle, postImage, category, subCategory, postContent, writer } =
-      req.body;
+    const { postTitle, postContent, writer } = req.body;
 
     // Validate required fields
-    if (
-      !postTitle ||
-      !postImage ||
-      !category ||
-      !subCategory ||
-      !postContent ||
-      !writer
-    ) {
+    if (!postTitle || !postContent || !writer) {
       return res.status(400).json({
         success: false,
         message: "Required fields missing!",
@@ -36,9 +28,6 @@ export const savePost = async (req, res) => {
     const post = await Post.create({
       postTitle,
       slug,
-      postImage,
-      category,
-      subCategory,
       postContent,
       writer,
     });

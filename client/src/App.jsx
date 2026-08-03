@@ -16,7 +16,7 @@ import { useLocation } from "react-router-dom";
 import RegisterUser from "./pages/RegisterUser.jsx";
 import PostDisplayPage from "./pages/PostDisplayPage.jsx";
 import AboutUsComponent from "./pages/AboutUsComponent.jsx";
-import NewsPage from "./pages/NewsPage.jsx";
+import ArticlesPage from "./pages/ArticlesPage.jsx";
 import FeaturesPage from "./pages/FeaturesPage.jsx";
 import EditorialPage from "./pages/EditorialPage.jsx";
 import ColumnsPage from "./pages/ColumnsPage.jsx";
@@ -135,7 +135,7 @@ function App() {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/about" element={<AboutUsComponent />} />
         <Route path="/post/:slug" element={<PostDisplayPage />} />
-        <Route path="/news" element={<NewsPage />} />
+        <Route path="/articles" element={<ArticlesPage />} />
         <Route path="/features" element={<FeaturesPage />} />
         <Route path="/editorial" element={<EditorialPage />} />
         <Route path="/columns" element={<ColumnsPage />} />

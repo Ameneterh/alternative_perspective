@@ -15,25 +15,6 @@ const postSchema = new mongoose.Schema(
       index: true,
     },
 
-    postImage: {
-      type: String,
-      required: true,
-    },
-
-    category: {
-      type: String,
-      required: true,
-      trim: true,
-      enum: ["news", "editorials", "features", "columns"],
-    },
-
-    subCategory: {
-      type: String,
-      required: true,
-      trim: true,
-      enum: ["economy", "health", "politics", "security"],
-    },
-
     postContent: {
       type: String,
       required: true,

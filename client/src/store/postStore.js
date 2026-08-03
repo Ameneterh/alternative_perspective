@@ -20,22 +20,11 @@ export const usePostStore = create((set) => ({
   message: null,
 
   //   send new message
-  savePost: async ({
-    postTitle,
-    postImage,
-    category,
-    subCategory,
-    postContent,
-    writer,
-    comments,
-  }) => {
+  savePost: async ({ postTitle, postContent, writer, comments }) => {
     set({ isLoading: true, error: null });
     try {
       const response = await axios.post(`${API_URL}/save-post`, {
         postTitle,
-        postImage,
-        category,
-        subCategory,
         postContent,
         writer,
         comments,

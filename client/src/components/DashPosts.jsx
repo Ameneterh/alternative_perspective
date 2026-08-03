@@ -240,13 +240,7 @@ export default function DashPosts() {
                       Post Date
                     </th>
                     <th className="text-left px-4 py-1 text-nowrap">
-                      Post Image
-                    </th>
-                    <th className="text-left px-4 py-1 text-nowrap">
                       Post Title & Content Summary
-                    </th>
-                    <th className="text-left px-4 py-1 text-nowrap">
-                      Category/Sub Category
                     </th>
                     <th className="text-left px-4 py-1 text-nowrap">
                       Read Count
@@ -281,22 +275,12 @@ export default function DashPosts() {
                             : ""}
                         </td>
                         <td className="px-4 py-1 align-top">
-                          <img
-                            src={business?.postImage}
-                            alt={business?._id}
-                            className="w-20"
-                          />
-                        </td>
-                        <td className="px-4 py-1 align-top">
                           <Link
                             to={`/post/${business?.slug}`}
                             className="text-blue-600 hover:underline underline-offset-2"
                           >
                             {business?.postTitle}
                           </Link>
-                        </td>
-                        <td className="px-4 py-1 align-top capitalize">
-                          {business?.category}; {business?.subCategory}
                         </td>
                         <td className="flex items-center gap-2 px-4 py-1 text-sm capitalize align-top">
                           {business?.readCount} read

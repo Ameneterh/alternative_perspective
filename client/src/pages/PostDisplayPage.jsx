@@ -53,11 +53,11 @@ export default function PostDisplayPage() {
               {selectedPost?.readCount === 1 ? "time" : "times"}
             </span>
           </div>
-          <img
+          {/* <img
             src={selectedPost?.postImage}
             alt={selectedPost?.postTitle}
             className="w-full h-auto rounded-md"
-          />
+          /> */}
           <div className="flex items-center justify-between">
             <p className="border-l-2 border-l-red-600 p-1">
               By {selectedPost?.writer?.fullname}

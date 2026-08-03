@@ -25,7 +25,7 @@ const fadeInUp = {
   }),
 };
 
-export default function NewsPage() {
+export default function ArticlesPage() {
   const { error, isLoading, logout, user } = useAuthStore();
   const { getAllPosts } = usePostStore();
   const { slug } = useParams();
@@ -35,7 +35,7 @@ export default function NewsPage() {
   const getPosts = async () => {
     try {
       const { posts } = await getAllPosts();
-      setPosts(posts.filter((post) => post.category === "news"));
+      setPosts(posts);
 
       return posts;
     } catch (error) {
@@ -59,7 +59,7 @@ export default function NewsPage() {
         animate="visible"
       >
         <h1 className="text-red-950 font-bold text-xl md:text-3xl mt-4 md:mt-20 border-l-[6px] border-l-orange-600 pl-3 mb-6">
-          News & Updates
+          Articles & Opinions
         </h1>
         <motion.section
           variants={fadeInUp}
