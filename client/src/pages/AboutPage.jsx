@@ -19,7 +19,7 @@ const fadeInUp = {
   }),
 };
 
-export default function AboutUsComponent() {
+export default function AboutPage() {
   return (
     <MainLayout>
       <motion.section
@@ -42,9 +42,9 @@ export default function AboutUsComponent() {
           className="max-w-6xl w-full mx-auto flex flex-col md:flex-row gap-10"
         >
           {/* left side */}
-          <motion.div className="w-full max-w-lg">
-            <motion.div className="mt-6 w-full rounded-md font-extralight">
-              <div className="w-full flex flex-col items-center justify-center mb-4 py-4 bg-white/10 rounded-md">
+          <motion.div className="w-full max-w-3xl text-black">
+            <motion.div className="mt-6 w-full rounded-md font-normal">
+              <div className="w-full flex flex-col items-center justify-center mb-2 py-4 bg-white/10 rounded-md">
                 <img
                   src={founder_image}
                   alt="founder image"
@@ -53,10 +53,10 @@ export default function AboutUsComponent() {
                 />
                 <div className="flex flex-col text-center">
                   <h2 className="text-lg font-bold text-red-950">
-                    Pharm BAGUDU Mohammed
+                    BAGUDU Mohammed
                   </h2>
                   <p className="text-xs text-gray-800 -mt-1">
-                    Founder/Managing Partner, Alternative Perspectives
+                    Founder & Editor, Alternative Perspectives
                   </p>
                 </div>
 
@@ -87,6 +87,12 @@ export default function AboutUsComponent() {
                   </Link>
                 </div>
               </div>
+              <h2
+                id="mission"
+                className="text-2xl font-semibold pt-4 mb-3 border-t-2 border-t-red-800"
+              >
+                About BAGUDU Mohammed
+              </h2>
 
               <p className="text-sm mb-3">
                 Bagudu Mohammed is a freelance writer and socio-political
@@ -128,6 +134,28 @@ export default function AboutUsComponent() {
                 ideas.
               </p>
             </motion.div>
+            <motion.p
+              variants={fadeInUp}
+              initial="hidden"
+              animate="visible"
+              className="font-normal mb-6"
+            >
+              <h2
+                id="mission"
+                className="text-2xl font-semibold mt-6 pt-4 mb-3 border-t-2 border-t-red-800"
+              >
+                My Mission
+              </h2>
+              <p className="mt-2 text-black">
+                As the Founder and Editor of Alternative Perspectives, my
+                mission is to provide thoughtful analysis of politics,
+                governance, public policy, society, and current affairs. Through
+                well-researched articles and balanced commentary, I explore
+                issues from different perspectives to promote informed
+                discussion, critical thinking, and constructive public
+                engagement.
+              </p>
+            </motion.p>
           </motion.div>
 
           {/* right */}
@@ -144,7 +172,7 @@ export default function AboutUsComponent() {
               className="font-extralight mb-6"
             >
               <h2 id="mission" className="text-2xl font-semibold">
-                Why Our Mission Matters
+                Advert Placement
               </h2>
               <p className="mt-4">
                 Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ab
@@ -158,69 +186,6 @@ export default function AboutUsComponent() {
                 numquam ipsam sed sapiente excepturi porro et incidunt, saepe
                 pariatur magni ut aperiam.
               </p>
-            </motion.p>
-
-            <motion.p
-              variants={fadeInUp}
-              initial="hidden"
-              animate="visible"
-              className="font-extralight md:mb-6"
-            >
-              <hr className="border-t border-gray-100" />
-
-              {/* What Makes Different */}
-              <h2 className="text-2xl font-semibold my-4">
-                What Makes Our Approach Different
-              </h2>
-              <p className="mt-4">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Possimus optio praesentium a vitae voluptate, sequi laborum
-                consequuntur! Neque, recusandae hic repellat ullam nobis
-                architecto sed explicabo cumque quae deleniti rerum?
-              </p>
-              <p className="mt-3">
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                Possimus optio praesentium a vitae voluptate, sequi laborum
-                consequuntur! Neque, recusandae hic repellat ullam nobis
-                architecto sed explicabo cumque quae deleniti rerum?
-              </p>
-            </motion.p>
-
-            <motion.p
-              variants={fadeInUp}
-              initial="hidden"
-              animate="visible"
-              className="font-extralight md:mb-6"
-            >
-              <hr className="border-t border-gray-100 my-4" />
-
-              {/* Values & Promise */}
-              <h2 className="text-2xl font-semibold">
-                The Values That Guide Our Work
-              </h2>
-              <ul className="mt-4 space-y-2">
-                <li>
-                  <strong>Authenticity:</strong> Lorem ipsum dolor, sit amet
-                  consectetur adipisicing elit. Possimus optio praesentium a
-                  vitae voluptate, sequi laborum consequuntur! Neque, recusandae
-                  hic repellat ullam nobis architecto sed explicabo cumque quae
-                  deleniti rerum?.
-                </li>
-                <li>
-                  <strong>Truthfulness:</strong> Lorem ipsum dolor, sit amet
-                  consectetur adipisicing elit. Possimus optio praesentium a
-                  vitae voluptate, sequi laborum consequuntur! Neque, recusandae
-                  hic repellat ullam nobis architecto sed explicabo cumque quae
-                  deleniti rerum?
-                </li>
-                <li>
-                  <strong>Reliability:</strong> Lorem ipsum dolor, sit amet
-                  consectetur adipisicing elit. Possimus optio praesentium a
-                  vitae voluptate, sequi laborum consequuntur! Neque, recusandae
-                  hic repellat ullam nobis architecto sed explicabo cumque quae
-                  deleniti rerum?
-                </li>
-              </ul>
             </motion.p>
           </motion.div>
         </motion.section>

@@ -15,7 +15,6 @@ import ContactUs from "./pages/ContactUs.jsx";
 import { useLocation } from "react-router-dom";
 import RegisterUser from "./pages/RegisterUser.jsx";
 import PostDisplayPage from "./pages/PostDisplayPage.jsx";
-import AboutUsComponent from "./pages/AboutUsComponent.jsx";
 import ArticlesPage from "./pages/ArticlesPage.jsx";
 import FeaturesPage from "./pages/FeaturesPage.jsx";
 import EditorialPage from "./pages/EditorialPage.jsx";
@@ -23,6 +22,7 @@ import ColumnsPage from "./pages/ColumnsPage.jsx";
 import FreqAskedQuestions from "./pages/FreqAskedQuestions.jsx";
 import TermsofUsePage from "./pages/TermsofUsePage.jsx";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage.jsx";
+import AboutPage from "./pages/AboutPage.jsx";
 
 // protected routes
 const ProtectedRoute = ({ children }) => {
@@ -133,7 +133,7 @@ function App() {
 
         {/* unprotected routes */}
         <Route path="/contact" element={<ContactUs />} />
-        <Route path="/about" element={<AboutUsComponent />} />
+        <Route path="/about" element={<AboutPage />} />
         <Route path="/post/:slug" element={<PostDisplayPage />} />
         <Route path="/articles" element={<ArticlesPage />} />
         <Route path="/features" element={<FeaturesPage />} />
