@@ -63,12 +63,12 @@ export const usePostStore = create((set) => ({
   },
 
   //   send comment
-  commentReport: async ({ comment, reportId, commentBy }) => {
+  commentReport: async ({ comment, postId, commentBy }) => {
     set({ isLoading: true, error: null });
     try {
       const response = await axios.put(`${API_URL}/send-comment`, {
         comment,
-        reportId,
+        postId,
         commentBy,
       });
       set({

@@ -207,4 +207,32 @@ export const useAuthStore = create((set) => ({
       throw error;
     }
   },
+
+  // ================================================
+  // functions to create aboutPage content & edit
+  addAboutPage: async ({ fullname, email, content, socials }) => {
+    set({ isLoading: true, error: null });
+    try {
+      const response = await axios.post(`${API_URL}/add-about`, {
+        fullname,
+        email,
+        content,
+        socials,
+      });
+      set({
+        about: response.data.about,
+        isAuthenticated: true,
+        isLoading: false,
+      });
+    } catch (error) {
+      set({
+        error:
+          error.response?.data?.message ||
+          error.message ||
+          "Error adding content",
+        isLoading: false,
+      });
+      throw error;
+    }
+  },
 }));

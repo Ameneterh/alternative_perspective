@@ -47,27 +47,27 @@ export const savePost = async (req, res) => {
 // comment logic
 export const sendComment = async (req, res) => {
   try {
-    const { comment, reportId, commentBy } = req.body;
+    const { comment, postId, commentBy } = req.body;
 
     // Add validation for required fields
-    if (!comment || !reportId || !commentBy) {
+    if (!comment || !postId || !commentBy) {
       return res.status(400).json({
         success: false,
         message: "Required fields missing!",
       });
     }
 
-    const reportExists = await Report.findById(reportId);
+    const postExists = await Post.findById(postId);
 
-    if (!reportExists) {
+    if (!postExists) {
       return res.status(400).json({
         success: false,
-        message: "Report not found!",
+        message: "Post not found!",
       });
     }
 
-    const report = await Report.findByIdAndUpdate(
-      reportId,
+    const post = await Post.findByIdAndUpdate(
+      postId,
       { $push: { comments: { commentBy, comment } } },
       {
         new: true,
@@ -76,7 +76,7 @@ export const sendComment = async (req, res) => {
 
     res.status(201).json({
       success: true,
-      report: report,
+      post: post,
     });
   } catch (error) {
     res.status(500).json({

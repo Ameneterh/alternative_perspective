@@ -6,10 +6,11 @@ import { Link, useParams } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { MdOutlineAddComment } from "react-icons/md";
 import { usePostStore } from "../store/postStore";
+import toast from "react-hot-toast";
 
 export default function PostDisplayPage() {
   const { error, isLoading, logout, user } = useAuthStore();
-  const { getAllPosts } = usePostStore();
+  const { getAllPosts, commentReport } = usePostStore();
   const { slug } = useParams();
   const [comment, setComment] = useState("");
   const [posts, setPosts] = useState([]);
@@ -31,6 +32,23 @@ export default function PostDisplayPage() {
   }, [user?._id]);
 
   const selectedPost = posts.find((post) => post.slug === slug);
+
+  const handleSubmitComment = async (e) => {
+    e.preventDefault();
+
+    try {
+      await commentReport({
+        comment,
+        postId: selectedPost._id,
+        commentBy: user._id,
+      });
+      toast.success("Comment sent successfully");
+      getPosts();
+      setComment("");
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <MainLayout>
@@ -132,7 +150,10 @@ export default function PostDisplayPage() {
               )}
             </div>
 
-            <form className="flex flex-col md:flex-row gap-4 w-full mt-6">
+            <form
+              className="flex flex-col md:flex-row gap-4 w-full mt-6"
+              onSubmit={handleSubmitComment}
+            >
               <div className="flex flex-col w-full">
                 <textarea
                   placeholder="Write your comment here..."
