@@ -2,10 +2,11 @@ import React from "react";
 import { motion } from "framer-motion";
 import MainLayout from "../layout/MainLayout";
 import founder_image from "../assets/founder_image.jpeg";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { MdOutlineWhatsapp } from "react-icons/md";
 import { FaLinkedin, FaTwitter, FaFacebook } from "react-icons/fa";
 import image from "../assets/founder_image.jpeg";
+import { usePostStore } from "../store/postStore";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -29,8 +30,9 @@ export default function PostThumbComponent({ post }) {
       animate="visible"
     >
       <Link
+        // onClick={() => readArticle(post.slug)}
         to={`/post/${post.slug}`}
-        className="w-full h-full group flex flex-col"
+        className="w-full h-full group flex flex-col cursor-pointer"
       >
         {/* <img
           src={image}

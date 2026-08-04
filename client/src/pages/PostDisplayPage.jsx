@@ -10,7 +10,7 @@ import toast from "react-hot-toast";
 
 export default function PostDisplayPage() {
   const { error, isLoading, logout, user } = useAuthStore();
-  const { getAllPosts, commentReport } = usePostStore();
+  const { getAllPosts, commentReport, readArticle } = usePostStore();
   const { slug } = useParams();
   const [comment, setComment] = useState("");
   const [posts, setPosts] = useState([]);
@@ -32,6 +32,12 @@ export default function PostDisplayPage() {
   }, [user?._id]);
 
   const selectedPost = posts.find((post) => post.slug === slug);
+
+  useEffect(() => {
+    if (selectedPost?.slug) {
+      readArticle(selectedPost.slug);
+    }
+  }, [selectedPost?.slug]);
 
   const handleSubmitComment = async (e) => {
     e.preventDefault();
@@ -111,7 +117,7 @@ export default function PostDisplayPage() {
                 <div className="flex flex-col">
                   {selectedPost?.comments.map((comment) => (
                     <div
-                      key={comment.id}
+                      key={comment._id}
                       className="border-b border-gray-300 p-2 flex items-start gap-2"
                     >
                       <img

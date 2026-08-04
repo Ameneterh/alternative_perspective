@@ -39,7 +39,7 @@ const postSchema = new mongoose.Schema(
 
     readCount: {
       type: Number,
-      default: 50,
+      default: () => Math.floor(Math.random() * (100 - 50 + 1)) + 50,
     },
 
     writer: {

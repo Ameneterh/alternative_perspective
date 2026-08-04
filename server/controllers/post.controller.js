@@ -109,71 +109,24 @@ export const getPosts = async (req, res) => {
   }
 };
 
-// generate reports summary
-export const getWeeklySummary = async (req, res) => {
+// increment read count
+export const incrementReads = async (req, res) => {
   try {
-    const { startDate, endDate } = req.query;
+    const { slug } = req.params;
 
-    const start = new Date(startDate);
-    const end = new Date(endDate);
-    end.setHours(23, 59, 59, 999);
+    const post = await Post.findOneAndUpdate(
+      { slug },
+      { $inc: { readCount: 1 } },
+      { new: true },
+    );
 
-    const reports = await Report.find({
-      createdAt: {
-        $gte: new Date(start),
-        $lte: new Date(end),
-      },
-    }).populate("reporter");
+    if (!post) {
+      return res.status(404).json({ message: "Post not found" });
+    }
 
-    const summary = {};
-
-    reports.forEach((report) => {
-      const id = report.reporter._id;
-
-      if (!summary[id]) {
-        summary[id] = {
-          name: report.reporter.fullname,
-
-          totalReports: 0,
-
-          interventions: 0,
-        };
-      }
-
-      summary[id].totalReports++;
-
-      if (
-        report.interventions &&
-        !/^(nil|nill|none|n\/a|na|no|no intervention|no interventions|not applicable|-|0)$/i.test(
-          report.interventions.trim(),
-        ) &&
-        report.interventions.toLowerCase() //.includes("interventions")
-      ) {
-        summary[id].interventions++;
-      }
-    });
-
-    const formatted = Object.values(summary);
-
-    const excel = await generateExcel(formatted, startDate, endDate);
-
-    // const word = await generateWord(formatted);
-
-    res.status(200).json({
-      message: "Summary generated successfully!",
-
-      data: formatted,
-
-      files: {
-        excel,
-
-        // word,
-      },
-    });
+    res.status(200).json({ readCount: post.readCount });
   } catch (error) {
-    res.status(500).json({
-      message: error.message,
-    });
+    res.status(500).json({ message: error.message });
   }
 };
 
