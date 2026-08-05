@@ -249,7 +249,7 @@ export default function DashProfile() {
             label="* Username"
             placeholder="Ameneterh"
             className="flex-1 w-full"
-            defaultValue={user.username}
+            defaultValue={user?.username}
             color="red"
             disabled
             onChange={(e) =>

@@ -15,6 +15,7 @@ import AdminDashboardComponent, {
 import { UserDashboardComponents } from "./AdminDashboardComponent";
 import Divider from "./Divider";
 import { usePostStore } from "../store/postStore";
+import { posts } from "../assets/static_assets";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -87,20 +88,8 @@ export default function DashboardComponent() {
     endDate = new Date(),
   } = {}) => {
     try {
-      const {
-        reports,
-        totalReports,
-        // lastMonthReports,
-        lastWeekReports,
-        reportCounts,
-        reportsByRole,
-      } = await getAllReports({ startDate, endDate });
-      setReports(reports);
-      setTotalReports(totalReports);
-      // setLastMonthReports(lastMonthReports);
-      setLastWeekReports(lastWeekReports);
-      setReportCount(reportCounts);
-      setReportsByRole(reportsByRole);
+      const { posts } = await getAllPosts();
+      setReports(posts);
     } catch (error) {
       console.log(error);
     }
@@ -130,7 +119,7 @@ export default function DashboardComponent() {
 
             {/* show total number reports submitted */}
             <AdminDashboardReportComponent
-              totalReports={totalReports}
+              totalReports={posts.length}
               heading={"total report count"}
               reportCount={userCount}
               reportsByRole={reportsByRole}
@@ -165,7 +154,7 @@ export default function DashboardComponent() {
         <></>
       )}
 
-      <motion.div
+      {/* <motion.div
         variants={fadeInUp}
         initial="hidden"
         animate="visible"
@@ -197,25 +186,11 @@ export default function DashboardComponent() {
                             year: "numeric",
                             month: "short",
                             day: "numeric",
-                            // hour: "numeric",
-                            // minute: "2-digit",
-                            // hour12: true,
                           },
                         )
                       : ""}
                   </td>
-                  {/* <td className="px-4 py-1 text-sm align-top">
-                    {business.createdAt
-                      ? new Date(business.createdAt).toLocaleString("en-US", {
-                          year: "numeric",
-                          month: "short",
-                          day: "numeric",
-                          hour: "numeric",
-                          minute: "2-digit",
-                          hour12: true,
-                        })
-                      : ""}
-                  </td> */}
+
                   <td className="px-4 py-1 align-top">
                     <div className="flex items-start gap-2">
                       <div className="flex flex-col text-sm">
@@ -265,7 +240,7 @@ export default function DashboardComponent() {
         ) : (
           <p>No Reports found.</p>
         )}
-      </motion.div>
+      </motion.div> */}
 
       {/* modal to update user status */}
       {/* {showModal && (

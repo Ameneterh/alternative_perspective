@@ -326,13 +326,15 @@ export const CheckAuth = async (req, res) => {
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find({
-      role: { $in: ["pharmacist", "pharmtech", "staff"] },
-    }).populate("createdBy");
+      role: { $in: ["architect", "contributor", "editor", "staff", "user"] },
+    });
 
     const userCounts = await User.aggregate([
       {
         $match: {
-          role: { $in: ["pharmacist", "pharmtech", "staff"] },
+          role: {
+            $in: ["architect", "contributor", "editor", "staff", "user"],
+          },
         },
       },
       {
@@ -349,7 +351,7 @@ export const getUsers = async (req, res) => {
     }, {});
 
     const totalUsers = await User.countDocuments({
-      role: { $in: ["pharmacist", "pharmtech", "staff"] },
+      role: { $in: ["architect", "contributor", "editor", "staff", "user"] },
     });
 
     const now = new Date();
@@ -361,7 +363,7 @@ export const getUsers = async (req, res) => {
     );
 
     const lastMonthUsers = await User.countDocuments({
-      role: { $in: ["pharmacist", "pharmtech", "staff"] },
+      role: { $in: ["architect", "contributor", "editor", "staff", "user"] },
       createdAt: { $gte: oneMonthAgo },
     });
 

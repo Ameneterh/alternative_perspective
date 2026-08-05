@@ -33,7 +33,7 @@ export function AdminDashboardUserTotalComponent({
         </div>
         <div className="h-full w-full bg-gradient-to-r from-gray-200 via-gray-300 to-black"></div>
       </div>
-      <div className="grid grid-cols-3 mt-2 text-sm items-center justify-center bg-gray-400 rounded py-1">
+      {/* <div className="grid grid-cols-3 mt-2 text-sm items-center justify-center bg-gray-400 rounded py-1">
         <p className="text-green-800 flex flex-col items-center">
           <span className="text-black text-sm">Pharm</span>
           <span className="flex gap-1 items-center text-lg font-bold -mt-1">
@@ -55,7 +55,7 @@ export function AdminDashboardUserTotalComponent({
             {userCount.staff}
           </span>
         </p>
-      </div>
+      </div> */}
     </Link>
   );
 }
@@ -83,12 +83,12 @@ export function AdminDashboardReportComponent({
         <div className="text-5xl flex items-center gap-1">
           {totalReports}
           <p className="text-sm">
-            Reports <span className="block -mt-1">Submitted</span>
+            Posts <span className="block -mt-1">Made</span>
           </p>
         </div>
         <div className="h-full w-full bg-gradient-to-r from-gray-200 via-gray-300 to-black"></div>
       </div>
-      <div className="grid grid-cols-3 mt-2 text-sm items-center justify-center bg-gray-400 rounded py-1">
+      {/* <div className="grid grid-cols-3 mt-2 text-sm items-center justify-center bg-gray-400 rounded py-1">
         <p className="text-green-800 flex flex-col items-center">
           <span className="text-black text-sm">Pharm</span>
           <span className="flex gap-1 items-center text-lg font-bold -mt-1">
@@ -103,7 +103,7 @@ export function AdminDashboardReportComponent({
             {reportsByRole?.pharmtech ? reportsByRole.pharmtech : 0}
           </span>
         </p>
-      </div>
+      </div> */}
     </Link>
   );
 }
@@ -136,7 +136,7 @@ export function LastWeekReportComponent({
         </div>
         <div className="h-full w-full bg-gradient-to-r from-gray-200 via-gray-300 to-black"></div>
       </div>
-      <div className="grid grid-cols-3 mt-2 text-sm items-center justify-center bg-gray-400 rounded py-1">
+      {/* <div className="grid grid-cols-3 mt-2 text-sm items-center justify-center bg-gray-400 rounded py-1">
         <p className="text-green-800 flex flex-col items-center">
           <span className="text-black text-sm">Pharm</span>
           <span className="flex gap-1 items-center text-lg font-bold -mt-1">
@@ -151,7 +151,7 @@ export function LastWeekReportComponent({
             {reportsByRole?.pharmtech ? reportsByRole.pharmtech : 0}
           </span>
         </p>
-      </div>
+      </div> */}
     </Link>
   );
 }

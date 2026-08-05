@@ -52,14 +52,14 @@ export default function UserDashboard() {
         {/* for invoice creation */}
         {tab === "add-content" && <AddContent />}
 
+        {/* for invoice creation */}
+        {tab === "add-content" && <AddContent />}
+
         {/* for adding a new handler */}
         {tab === "add-user" && <DashAddUser />}
 
         {/* view business */}
         {tab === "posts" && <DashPosts />}
-
-        {/* generate reports */}
-        {/* {tab === "generate-report" && <DashGenerateReport />} */}
       </motion.div>
     </MainLayout>
   );

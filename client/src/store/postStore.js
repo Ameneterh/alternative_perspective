@@ -43,6 +43,40 @@ export const usePostStore = create((set) => ({
     }
   },
 
+  // edit post
+  editPost: async (postId, formData) => {
+    try {
+      set({ isLoading: true });
+
+      const response = await axios.put(
+        `${API_URL}/edit-post/${postId}`,
+        formData,
+      );
+
+      set((state) => ({
+        posts: state.posts.map((post) =>
+          post._id === postId ? response.data.post : post,
+        ),
+        post: state.post?._id === postId ? response.data.post : state.post,
+        isLoading: false,
+      }));
+
+      return response.data;
+    } catch (error) {
+      console.log("ERROR", error);
+      console.log("Response:", error.response);
+      console.log("Data:", error.response?.data);
+
+      set({ isLoading: false });
+
+      throw (
+        error.response?.data ?? {
+          message: "Failed to edit post",
+        }
+      );
+    }
+  },
+
   //   read post
   readArticle: async (slug) => {
     try {

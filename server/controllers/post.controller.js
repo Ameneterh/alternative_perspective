@@ -44,6 +44,66 @@ export const savePost = async (req, res) => {
   }
 };
 
+// edit post
+export const editPost = async (req, res) => {
+  try {
+    const { postId } = req.params;
+
+    const postExist = await Post.findById(postId);
+
+    if (!postExist) {
+      return res.status(404).json({
+        success: false,
+        message: "Post not found!",
+      });
+    }
+
+    const updates = {};
+
+    // Only update fields that were actually sent
+    const allowedFields = ["postTitle", "postContent"];
+
+    for (const field of allowedFields) {
+      if (
+        req.body[field] !== undefined &&
+        String(req.body[field]) !== String(postExist[field] ?? "")
+      ) {
+        updates[field] = req.body[field];
+      }
+    }
+
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No changes detected",
+      });
+    }
+
+    const editedPost = await Post.findByIdAndUpdate(
+      postId,
+      { $set: updates },
+      {
+        new: true,
+        // runValidators: true,
+      },
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Post successfully edited",
+      post: editedPost,
+    });
+  } catch (error) {
+    console.error("Post Edit Error:", error);
+    console.error(error.stack);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to edit post",
+    });
+  }
+};
+
 // comment logic
 export const sendComment = async (req, res) => {
   try {

@@ -20,6 +20,7 @@ import FreqAskedQuestions from "./pages/FreqAskedQuestions.jsx";
 import TermsofUsePage from "./pages/TermsofUsePage.jsx";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage.jsx";
 import AboutPage from "./pages/AboutPage.jsx";
+import UpdateContent from "./pages/UpdateContent.jsx";
 
 // protected routes
 const ProtectedRoute = ({ children }) => {
@@ -132,6 +133,7 @@ function App() {
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/about" element={<AboutPage />} />
         <Route path="/post/:slug" element={<PostDisplayPage />} />
+        <Route path="/edit-post/:postId" element={<UpdateContent />} />
         <Route path="/articles" element={<ArticlesPage />} />
         <Route path="/faqs" element={<FreqAskedQuestions />} />
         <Route path="/terms-of-use" element={<TermsofUsePage />} />

@@ -23,7 +23,7 @@ import {
 import { Link } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
 import { Input } from "./Input";
-import { MdFilterList } from "react-icons/md";
+import { MdEditNote, MdFilterList } from "react-icons/md";
 import { ReportFiltersComponent } from "./DashFilterComponent";
 import { usePostStore } from "../store/postStore";
 import { pdf } from "@react-pdf/renderer";
@@ -248,6 +248,7 @@ export default function DashPosts() {
                     <th className="text-left px-4 py-1 text-nowrap">
                       Comment Count
                     </th>
+                    <th className="text-left px-4 py-1 text-nowrap">Actions</th>
                   </tr>
                 </thead>
 
@@ -293,6 +294,16 @@ export default function DashPosts() {
                                 ? "comment"
                                 : "comments"}
                             </span>
+                          </div>
+                        </td>
+                        <td className="px-4 py-1 align-top">
+                          <div className="flex items-center gap-1">
+                            <Link
+                              to={`/edit-post/${business?._id}`}
+                              className="text-blue-700 hover:scale-110"
+                            >
+                              <MdEditNote size={24} />
+                            </Link>
                           </div>
                         </td>
                       </tr>

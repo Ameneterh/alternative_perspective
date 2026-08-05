@@ -89,22 +89,6 @@ export default function DashSidebar() {
                 </Sidebar.Item>
               </Link>
 
-              <Link to="/user-dashboard?tab=general-information">
-                <Sidebar.Item
-                  active={tab === "general-information"}
-                  icon={MdOutlineNotificationsActive}
-                  as="div"
-                  className=""
-                >
-                  General Info{" "}
-                  <div className="relative inline-block">
-                    <span className="absolute -top-4 left-0 text-xs bg-red-900 text-white px-1 font-semibold">
-                      {unreadCount || 0}
-                    </span>
-                  </div>
-                </Sidebar.Item>
-              </Link>
-
               <Link to="/user-dashboard?tab=posts">
                 <Sidebar.Item
                   active={tab === "posts"}

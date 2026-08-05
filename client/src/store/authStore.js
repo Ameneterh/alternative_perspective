@@ -141,7 +141,10 @@ export const useAuthStore = create((set) => ({
         users: response.data.users,
         isLoading: false,
       });
-      return response.data;
+
+      console.log(response);
+
+      return response.data.users;
     } catch (error) {
       set({
         error: error.response.data.message || "Error getting Users",
