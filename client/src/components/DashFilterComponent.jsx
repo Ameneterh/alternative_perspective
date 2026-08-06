@@ -274,9 +274,9 @@ export function ReportFiltersComponent({
             onChange={(e) => setSortBy(e.target.value)}
             className="min-w-0 px-2 py-1 w-fit border-none outline-none active:border-none focus:border-none focus:ring-0 bg-transparent"
           >
-            <option value="reporter">Reporter</option>
             <option value="date">Date</option>
-            {/* <option value="status">Status</option> */}
+            <option value="reporter">Writer</option>
+            <option value="readCount">Read Count</option>
           </select>
         </div>
         <div className="flex flex-col relative text-sm text-nowrap mt-8">

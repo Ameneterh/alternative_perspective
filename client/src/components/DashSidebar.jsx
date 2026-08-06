@@ -88,7 +88,11 @@ export default function DashSidebar() {
                   Profile
                 </Sidebar.Item>
               </Link>
+            </>
+          )}
 
+          {(user.isAdmin || user.role === "architect") && (
+            <>
               <Link to="/user-dashboard?tab=posts">
                 <Sidebar.Item
                   active={tab === "posts"}
@@ -98,11 +102,6 @@ export default function DashSidebar() {
                   View Posts
                 </Sidebar.Item>
               </Link>
-            </>
-          )}
-
-          {(user.isAdmin || user.role === "architect") && (
-            <>
               <Link to="/user-dashboard?tab=users">
                 <Sidebar.Item
                   active={tab === "users"}

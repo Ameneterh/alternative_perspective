@@ -93,22 +93,6 @@ export default function DashPosts() {
     getPosts();
   }, [user?._id]);
 
-  const generatePDF = async () => {
-    setPDFLoading(true);
-    const reports = await getReports({
-      startDate,
-      endDate,
-    });
-
-    const blob = await pdf(
-      <ReportsPDF reports={reports} startDate={startDate} endDate={endDate} />,
-    ).toBlob();
-
-    setPDFLoading(false);
-
-    window.open(URL.createObjectURL(blob), "_blank");
-  };
-
   const handleOpenModal = (report) => {
     setSelectedReport(report);
     setShowModal(true);
@@ -149,6 +133,7 @@ export default function DashPosts() {
 
       const matchesSearch =
         report?.writer?.fullname?.toLowerCase().includes(search) ||
+        report?.postTitle?.toLowerCase().includes(search) ||
         new Date(user?.createdAt)
           .toLocaleDateString("en-GB")
           .toLowerCase()
@@ -162,6 +147,10 @@ export default function DashPosts() {
       switch (sortBy) {
         case "date":
           result = new Date(a.createdAt) - new Date(b.createdAt);
+          break;
+
+        case "readCount":
+          result = (a.readCount || 0) - (b.readCount || 0);
           break;
 
         case "writer":
@@ -268,9 +257,9 @@ export default function DashPosts() {
                                   year: "numeric",
                                   month: "short",
                                   day: "numeric",
-                                  hour: "numeric",
-                                  minute: "2-digit",
-                                  hour12: true,
+                                  // hour: "numeric",
+                                  // minute: "2-digit",
+                                  // hour12: true,
                                 },
                               )
                             : ""}
@@ -347,21 +336,6 @@ export default function DashPosts() {
           )}
         </motion.div>
       </div>
-
-      {/* read reports modal */}
-      {/* {showReadReportsModal && <ReadManyReport reports={reports} />} */}
-
-      {/* modal to update user status */}
-      {/* {showModal && (
-        <ReadReport
-          selectedReport={selectedReport}
-          showModal={showModal}
-          setShowModal={setShowModal}
-          getReports={getReports}
-          startDate={startDate}
-          endDate={endDate}
-        />
-      )} */}
 
       {/* modal to update user status */}
       {showNewModal && (
