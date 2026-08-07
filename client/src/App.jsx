@@ -21,6 +21,7 @@ import TermsofUsePage from "./pages/TermsofUsePage.jsx";
 import PrivacyPolicyPage from "./pages/PrivacyPolicyPage.jsx";
 import AboutPage from "./pages/AboutPage.jsx";
 import UpdateContent from "./pages/UpdateContent.jsx";
+import EditAboutPage from "./pages/EditAboutPage.jsx";
 
 // protected routes
 const ProtectedRoute = ({ children }) => {
@@ -132,6 +133,7 @@ function App() {
         {/* unprotected routes */}
         <Route path="/contact" element={<ContactUs />} />
         <Route path="/about" element={<AboutPage />} />
+        <Route path="/edit-about" element={<EditAboutPage />} />
         <Route path="/post/:slug" element={<PostDisplayPage />} />
         <Route path="/edit-post/:postId" element={<UpdateContent />} />
         <Route path="/articles" element={<ArticlesPage />} />

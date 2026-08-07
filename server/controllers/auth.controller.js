@@ -3,6 +3,8 @@ import crypto from "crypto";
 
 import User from "../models/user.model.js";
 import { generateTokenAndSetCookie } from "../utils/generateTokenAndSetCookie.js";
+import Page from "../models/pages.model.js";
+import { log } from "console";
 
 // add new user
 export const addUser = async (req, res) => {
@@ -321,8 +323,7 @@ export const CheckAuth = async (req, res) => {
   }
 };
 
-// general users actions
-// 1. get all users
+// get all users
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find({
@@ -379,6 +380,161 @@ export const getUsers = async (req, res) => {
     res.status(400).json({
       success: false,
       message: error.message,
+    });
+  }
+};
+
+// add about page
+export const addAbout = async (req, res) => {
+  const {
+    aboutTitle,
+    aboutContent,
+    missionTitle,
+    missionContent,
+    lastUpdatedBy,
+  } = req.body;
+
+  try {
+    // check content from req.body
+    if (
+      !aboutTitle ||
+      !aboutContent ||
+      !missionTitle ||
+      !missionContent ||
+      !lastUpdatedBy
+    ) {
+      throw new Error("All fields are required!");
+    }
+
+    const slug = aboutTitle
+      .split(" ")
+      .join("-")
+      .toLowerCase()
+      .replace(/[()?!;.,]/g, "")
+      .replace(/[^a-zA-Z0-9-]/g, "-");
+
+    // check if user already exists
+    const pageAlreadyExists = await Page.findOne({ slug }).collation({
+      locale: "en",
+      strength: 2,
+    });
+
+    if (pageAlreadyExists) {
+      return res
+        .status(400)
+        .json({ success: false, message: "Page already exists" });
+    }
+
+    // save new page
+    const page = await Page.create({
+      slug,
+      aboutTitle,
+      aboutContent,
+      missionTitle,
+      missionContent,
+      lastUpdatedBy,
+    });
+
+    await page.save();
+
+    res.status(201).json({
+      success: true,
+      message: "New Page Created Successfully",
+      page,
+    });
+  } catch (error) {
+    if (error.code === 11000) {
+      return res.status(400).json({
+        success: false,
+        message: "Page already exists.",
+      });
+    }
+
+    throw error;
+    // res.status(400).json({ success: false, message: error.message });
+  }
+};
+
+// get about content
+export const getAboutContent = async (req, res) => {
+  try {
+    const about = await Page.find();
+
+    res.status(200).json({
+      success: true,
+      message: "About Page fetched successfully",
+      about,
+    });
+  } catch (error) {
+    res.status(400).json({
+      success: false,
+      message: error.message,
+    });
+  }
+};
+
+// edit about page
+export const editAbout = async (req, res) => {
+  try {
+    const { pageId } = req.params;
+
+    const pageExists = await Page.findById(pageId);
+
+    if (!pageExists) {
+      return res.status(404).json({
+        success: false,
+        message: "Page you want to edit does not exist!",
+      });
+    }
+
+    const updates = {};
+
+    // Only update fields that were actually sent
+    const allowedFields = [
+      "aboutTitle",
+      "aboutContent",
+      "missionTitle",
+      "missionContent",
+      "lastUpdatedBy",
+    ];
+
+    for (const field of allowedFields) {
+      if (
+        req.body[field] !== undefined &&
+        String(req.body[field]) !== String(pageExists[field] ?? "")
+      ) {
+        updates[field] = req.body[field];
+      }
+    }
+
+    if (Object.keys(updates).length === 0) {
+      return res.status(400).json({
+        success: false,
+        message: "No changes detected",
+      });
+    }
+
+    const updatedPage = await Page.findByIdAndUpdate(
+      pageId,
+      { $set: updates },
+      {
+        new: true,
+        // runValidators: true,
+      },
+    );
+
+    return res.status(200).json({
+      success: true,
+      message: "Page updated successfully",
+      user: updatedPage,
+    });
+  } catch (error) {
+    console.error("Update Page Error:", error);
+    console.error(error.stack);
+
+    return res.status(500).json({
+      success: false,
+      message: "Failed to update page",
     });
   }
 };

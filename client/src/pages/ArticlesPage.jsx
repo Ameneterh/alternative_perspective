@@ -13,7 +13,7 @@ import { useEffect } from "react";
 import { useAuthStore } from "../store/authStore";
 import { ReportFiltersComponent } from "../components/DashFilterComponent";
 import { Input } from "../components/Input";
-import { Search } from "lucide-react";
+import { Search, StepBack, StepForward } from "lucide-react";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -43,10 +43,16 @@ export default function ArticlesPage() {
   const [filters, setFilters] = useState(false);
   const [filteredFields, setFilteredFields] = useState([]);
 
+  const [visibleCount, setVisibleCount] = useState(20);
+  const [startIndex, setStartIndex] = useState(0);
+  const [showMore, setShowMore] = useState(true);
+
   const getPosts = async () => {
     try {
       const { posts } = await getAllPosts();
       setPosts(posts);
+      setStartIndex(0);
+      setVisibleCount(20);
 
       return posts;
     } catch (error) {
@@ -58,6 +64,16 @@ export default function ArticlesPage() {
   useEffect(() => {
     getPosts();
   }, [user?._id]);
+
+  const handleShowMore = async () => {
+    setStartIndex((prev) => prev + 20);
+    setVisibleCount((prev) => prev + 20);
+  };
+
+  const handleShowLess = async () => {
+    setStartIndex((prev) => prev - 20);
+    setVisibleCount((prev) => prev - 20);
+  };
 
   const selectedReports = posts
     .filter((post) => {
@@ -135,9 +151,11 @@ export default function ArticlesPage() {
             <motion.div className="w-full">
               {selectedReports.length > 0 ? (
                 <motion.div className="mt-6 w-full grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-10">
-                  {selectedReports?.map((post, index) => (
-                    <PostThumbComponent key={index} post={post} />
-                  ))}
+                  {selectedReports
+                    .slice(startIndex, visibleCount)
+                    .map((post, index) => (
+                      <PostThumbComponent key={index} post={post} />
+                    ))}
                 </motion.div>
               ) : (
                 <p className="text-red-800 font-bold">No News Post Yet!</p>
@@ -145,6 +163,37 @@ export default function ArticlesPage() {
             </motion.div>
           </motion.section>
         </motion.section>
+        <div className="flex justify-center items-center gap-4 mt-4 text-sm">
+          {startIndex > 0 && (
+            // previous button
+            <button
+              onClick={() => handleShowLess()}
+              className="px-4 py-1 flex items-center"
+            >
+              <StepBack size={16} />
+              Prev
+            </button>
+          )}
+
+          {/* page info // numbering */}
+          <p className="flex items-center gap-1">
+            {startIndex + 1} -{" "}
+            {visibleCount < selectedReports.length
+              ? visibleCount
+              : selectedReports.length}{" "}
+            of {selectedReports.length}
+          </p>
+
+          {/* next button */}
+          {visibleCount < selectedReports.length && (
+            <button
+              onClick={() => handleShowMore()}
+              className="px-4 py-1 flex items-center"
+            >
+              Next <StepForward size={16} />
+            </button>
+          )}
+        </div>
       </motion.div>
     </MainLayout>
   );

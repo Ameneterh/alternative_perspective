@@ -61,7 +61,7 @@ export default function DashPosts() {
   const [posts, setPosts] = useState([]);
   const [title, setTitle] = useState("");
   const [filteredFields, setFilteredFields] = useState([]);
-  const [visibleCount, setVisibleCount] = useState(10);
+  const [visibleCount, setVisibleCount] = useState(20);
   const [startIndex, setStartIndex] = useState(0);
   const [endDate, setEndDate] = useState(
     new Date().toISOString().split("T")[0],
@@ -80,7 +80,7 @@ export default function DashPosts() {
       const { posts } = await getAllPosts();
       setPosts(posts);
       setStartIndex(0);
-      setVisibleCount(10);
+      setVisibleCount(20);
 
       return posts;
     } catch (error) {
@@ -99,33 +99,14 @@ export default function DashPosts() {
   };
 
   const handleShowMore = async () => {
-    setStartIndex((prev) => prev + 10);
-    setVisibleCount((prev) => prev + 10);
+    setStartIndex((prev) => prev + 20);
+    setVisibleCount((prev) => prev + 20);
   };
 
   const handleShowLess = async () => {
-    setStartIndex((prev) => prev - 10);
-    setVisibleCount((prev) => prev - 10);
+    setStartIndex((prev) => prev - 20);
+    setVisibleCount((prev) => prev - 20);
   };
-
-  const handleViewDetails = async (title) => {
-    setTitle(title);
-    handleGetInterventions(title);
-    setShowNewModal(true);
-  };
-
-  const handleGetInterventions = async (fieldName) => {
-    const res = await getReportFields({
-      startDate,
-      endDate,
-      fields: [fieldName],
-    });
-
-    setFilteredFields(res.fields[fieldName]);
-    // console.log(res.fields[fieldName]);
-  };
-
-  console.log(filteredFields);
 
   const selectedReports = posts
     .filter((report) => {

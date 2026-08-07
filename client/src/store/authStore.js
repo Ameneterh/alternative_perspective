@@ -18,6 +18,7 @@ export const useAuthStore = create((set) => ({
   isCheckingAuth: true,
   message: null,
   justLoggedOut: false,
+  about: null,
 
   //   add new new user account
   addUser: async ({
@@ -142,8 +143,6 @@ export const useAuthStore = create((set) => ({
         isLoading: false,
       });
 
-      console.log(response);
-
       return response.data.users;
     } catch (error) {
       set({
@@ -213,29 +212,80 @@ export const useAuthStore = create((set) => ({
 
   // ================================================
   // functions to create aboutPage content & edit
-  addAboutPage: async ({ fullname, email, content, socials }) => {
+  // addAboutPage: async ({ fullname, email, content, socials }) => {
+  //   set({ isLoading: true, error: null });
+  //   try {
+  //     const response = await axios.post(`${API_URL}/add-about`, {
+  //       fullname,
+  //       email,
+  //       content,
+  //       socials,
+  //     });
+  //     set({
+  //       about: response.data.about,
+  //       isAuthenticated: true,
+  //       isLoading: false,
+  //     });
+  //   } catch (error) {
+  //     set({
+  //       error:
+  //         error.response?.data?.message ||
+  //         error.message ||
+  //         "Error adding content",
+  //       isLoading: false,
+  //     });
+  //     throw error;
+  //   }
+  // },
+
+  // get about page content
+  getAboutContent: async () => {
     set({ isLoading: true, error: null });
     try {
-      const response = await axios.post(`${API_URL}/add-about`, {
-        fullname,
-        email,
-        content,
-        socials,
-      });
+      const response = await axios.get(`${API_URL}/get-about`);
       set({
         about: response.data.about,
-        isAuthenticated: true,
         isLoading: false,
       });
+
+      return response.data.about;
     } catch (error) {
       set({
-        error:
-          error.response?.data?.message ||
-          error.message ||
-          "Error adding content",
+        error: error.response.data.message || "Error getting About Page",
         isLoading: false,
       });
       throw error;
+    }
+  },
+
+  // edit about page
+  editAbout: async (pageId, formData) => {
+    try {
+      set({ isLoading: true });
+
+      const response = await axios.put(
+        `${API_URL}/edit-about/${pageId}`,
+        formData,
+      );
+
+      set((state) => ({
+        page: state.page?._id === pageId ? response.data.page : state.page,
+        isLoading: false,
+      }));
+
+      return response.data;
+    } catch (error) {
+      console.log("ERROR", error);
+      console.log("Response:", error.response);
+      console.log("Data:", error.response?.data);
+
+      set({ isLoading: false });
+
+      throw (
+        error.response?.data ?? {
+          message: "Failed to edit page",
+        }
+      );
     }
   },
 }));

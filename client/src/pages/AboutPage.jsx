@@ -1,10 +1,11 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import MainLayout from "../layout/MainLayout";
 import founder_image from "../assets/founder_image.jpeg";
 import { Link } from "react-router-dom";
 import { MdOutlineWhatsapp } from "react-icons/md";
 import { FaLinkedin, FaTwitter, FaFacebook } from "react-icons/fa";
+import { useAuthStore } from "../store/authStore";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 40 },
@@ -20,6 +21,24 @@ const fadeInUp = {
 };
 
 export default function AboutPage() {
+  const { user, getAboutContent } = useAuthStore();
+  const [about, setAbout] = useState(null);
+
+  const getAbout = async () => {
+    try {
+      const res = await getAboutContent();
+      setAbout(res?.[0] || null);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    getAbout();
+  }, [user._id]);
+
+  console.log(about);
+
   return (
     <MainLayout>
       <motion.section
@@ -60,7 +79,7 @@ export default function AboutPage() {
                   </p>
                 </div>
 
-                <div className="flex items-center justify-center gap-2 mt-3">
+                <div className="flex items-center justify-center gap-2 mt-1">
                   <Link
                     to="#"
                     className="hover:scale-110 transition-all duration-200"
@@ -86,53 +105,28 @@ export default function AboutPage() {
                     <MdOutlineWhatsapp size={20} />
                   </Link>
                 </div>
+                <div className="flex items-center mt-1">
+                  {user?.role === "editor" && user?.isAdmin && (
+                    <Link
+                      to="/edit-about"
+                      className="px-2 py-1 text-blue-700 hover:text-blue-800 hover:underline underline-offset-2 transition-all duration-300"
+                    >
+                      Edit About Page
+                    </Link>
+                  )}
+                </div>
               </div>
               <h2
                 id="mission"
                 className="text-2xl font-semibold pt-4 mb-3 border-t-2 border-t-red-800"
               >
-                About BAGUDU Mohammed
+                {about?.aboutTitle}
               </h2>
 
-              <p className="text-sm mb-3">
-                Bagudu Mohammed is a freelance writer and socio-political
-                commentator known for reframing public debate in Nigeria and
-                beyond. His work offers alternative perspectives that challenge
-                groupthink, test popular assumptions, and invite readers to
-                think beyond convenient narratives. The goal is not to tell
-                people what to think, but to give them better material to think
-                with.
-              </p>
-              <p className="text-sm mb-3">
-                He combines flair in writing with deep research and reflection.
-                Much of his material is drawn from the pulse of social media
-                conversations, where he identifies trending national issues and
-                subjects them to rigorous analysis. The result is commentary
-                that is balanced, fact-driven, and unafraid to question
-                consensus, while still engaging, thoughtful, and accessible.
-              </p>
-              <p className="text-sm mb-3">
-                Bagudu has earned a reputation as one of the leading voices
-                shaping opinion on both national and international issues. His
-                writing spans politics, governance, social trends, and
-                relationships, and it is valued for its clarity, intellectual
-                honesty, and the ability to hold both conviction and nuance in
-                the same space.
-              </p>
-              <p className="text-sm mb-3">
-                By professional training, Bagudu Mohammed is a pharmacist. He is
-                also an alumnus of the University of Jos and the University of
-                Abuja, where he earned a BSc in Public Administration and
-                graduated as the best student in his set. In addition to
-                writing, he works as a project manager and serves as Public
-                Relations consultant to several distinguished personalities.
-              </p>
-              <p className="text-sm mb-3">
-                His articles are widely sought after by print and online media
-                platforms for their distinctive voice: incisive, reflective, and
-                rooted in a search for truth in a marketplace of competing
-                ideas.
-              </p>
+              <div
+                className="text-sm mb-3"
+                dangerouslySetInnerHTML={{ __html: about?.aboutContent }}
+              ></div>
             </motion.div>
             <motion.p
               variants={fadeInUp}
@@ -144,17 +138,12 @@ export default function AboutPage() {
                 id="mission"
                 className="text-2xl font-semibold mt-6 pt-4 mb-3 border-t-2 border-t-red-800"
               >
-                My Mission
+                {about?.missionTitle}
               </h2>
-              <p className="mt-2 text-black">
-                As the Founder and Editor of Alternative Perspectives, my
-                mission is to provide thoughtful analysis of politics,
-                governance, public policy, society, and current affairs. Through
-                well-researched articles and balanced commentary, I explore
-                issues from different perspectives to promote informed
-                discussion, critical thinking, and constructive public
-                engagement.
-              </p>
+              <div
+                className="mt-2 text-black"
+                dangerouslySetInnerHTML={{ __html: about?.missionContent }}
+              ></div>
             </motion.p>
           </motion.div>
 

@@ -11,6 +11,9 @@ import {
   addUser,
   updateUser,
   updatePassword,
+  addAbout,
+  editAbout,
+  getAboutContent,
 } from "../controllers/auth.controller.js";
 import { verifyToken } from "../middlewares/verifyToken.js";
 
@@ -24,6 +27,10 @@ router.put("/update-user/:userId", verifyToken, updateUser);
 router.put("/update-password/:userId", verifyToken, updatePassword);
 
 router.post("/logout", logout);
+
+router.post("/add-about", addAbout);
+router.get("/get-about", getAboutContent);
+router.put("/edit-about/:pageId", verifyToken, editAbout);
 
 router.get("/get-users", getUsers);
 
