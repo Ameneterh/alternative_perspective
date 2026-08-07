@@ -184,9 +184,9 @@ export default function RegisterUser() {
                     className="w-full pl-3 pr-3 py-[6px] bg-white rounded-lg border border-gray-700 focus:border-green-500 focus:ring-2 focus:ring-green-500 text-green-800 placeholder-green-800 transition duration-200"
                   >
                     <option value="">Select User Role</option>
-                    <option value="contributor">Contributor</option>
-                    <option value="editor">Editor</option>
-                    <option value="staff">Staff</option>
+                    {/* <option value="contributor">Contributor</option> */}
+                    {/* <option value="editor">Editor</option> */}
+                    {/* <option value="staff">Staff</option> */}
                     <option value="user">User</option>
                   </select>
                 </div>

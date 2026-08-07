@@ -42,7 +42,7 @@ export default function LoginPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
-          className="max-w-md mx-auto w-full bg-white backdrop-filter backdrop-blur-xl rounded-lg shadow-xl overflow-hidden my-10 flex flex-col"
+          className="max-w-md mx-auto w-full bg-white backdrop-filter backdrop-blur-xl rounded-lg overflow-hidden my-10 flex flex-col"
         >
           <h2 className="text-3xl font-bold mb-6 text-center bg-gradient-to-r from-red-950 to bg-red-700 text-transparent bg-clip-text pt-8">
             Welcome Back!

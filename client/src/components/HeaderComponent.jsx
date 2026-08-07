@@ -214,7 +214,7 @@ export default function HeaderComponent({ business }) {
         </nav>
 
         {/* <div className="flex items-center gap-8"> */}
-        {user && (
+        {user ? (
           <div className="bg-white px-2 py-1 rounded flex items-center gap-2">
             {user?.role === "admin" ||
             user?.role === "architect" ||
@@ -249,6 +249,13 @@ export default function HeaderComponent({ business }) {
               />
             </div>
           </div>
+        ) : (
+          <Link
+            to={"/login"}
+            className="px-4 py-1 cursor-pointer bg-blue-700 text-white hover:bg-white hover:text-blue-900 rounded hover:scale-110 transition-all duration-500"
+          >
+            Login
+          </Link>
         )}
 
         {/* for small screens */}

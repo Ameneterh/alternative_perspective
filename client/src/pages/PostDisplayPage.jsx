@@ -4,7 +4,7 @@ import MainLayout from "../layout/MainLayout";
 import { posts } from "../assets/static_assets";
 import { Link, useParams } from "react-router-dom";
 import { useAuthStore } from "../store/authStore";
-import { MdOutlineAddComment } from "react-icons/md";
+import { MdEmail, MdOutlineAddComment, MdWhatsapp } from "react-icons/md";
 import { usePostStore } from "../store/postStore";
 import toast from "react-hot-toast";
 
@@ -95,6 +95,42 @@ export default function PostDisplayPage() {
             dangerouslySetInnerHTML={{ __html: selectedPost?.postContent }}
             className="text-gray-700 w-full max-w-5xl"
           ></div>
+
+          <div className="flex flex-col w-full bg-slate-100 p-1 border-t-2 border-t-black text-sm">
+            <p className="font-bold">
+              {selectedPost?.writer?.fullname}{" "}
+              {user?.isAdmin && user?.role === "editor" ? (
+                <span className="font-light">
+                  is the Founder/Editor of{" "}
+                  <span className="font-bold">Alternative Perspective,</span>{" "}
+                  he{" "}
+                </span>
+              ) : (
+                <></>
+              )}
+              <span className="font-light">can be reached via:</span>
+            </p>
+            <div className="flex items-center gap-1">
+              Email:
+              <Link
+                to={`mailto:${selectedPost?.writer?.email}`}
+                target="_blank"
+                className="text-blue-600 hover:underline underline-offset-2 flex items-center gap-1"
+              >
+                <MdEmail size={18} /> {selectedPost?.writer?.email}
+              </Link>
+            </div>
+            <div className="flex items-center gap-1">
+              WhatsApp:
+              <Link
+                to={`https://wa.me/${selectedPost?.writer?.phoneNumber}`}
+                target="_blank"
+                className="text-blue-600 hover:underline underline-offset-2 flex items-center gap-1"
+              >
+                <MdWhatsapp size={18} /> {selectedPost?.writer?.phoneNumber}
+              </Link>
+            </div>
+          </div>
 
           {/* comments */}
           <div className="flex flex-col mt-10 border-t-2 border-t-red-900 w-full p-2 bg-slate-100">
