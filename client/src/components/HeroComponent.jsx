@@ -59,7 +59,7 @@ export default function HeroComponent({ posts }) {
       <div className="h-full w-full">
         <div className="flex flex-col items-center w-full">
           <div
-            className="relative h-96 w-full bg-cover bg-center bg-no-repeat text-black bg-blue-950 rounded-md"
+            className="relative h-80 md:h-[500px] w-full bg-cover bg-center bg-no-repeat text-black bg-blue-950 rounded-md"
             style={{
               backgroundImage: `url(${heroImage})`,
             }}
