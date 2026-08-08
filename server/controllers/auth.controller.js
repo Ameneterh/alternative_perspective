@@ -24,7 +24,7 @@ export const addUser = async (req, res) => {
     }
 
     // check if user already exists
-    const userAlreadyExists = await User.findOne({ username }).collation({
+    const userAlreadyExists = await User.findOne({ email }).collation({
       locale: "en",
       strength: 2,
     });
@@ -43,7 +43,6 @@ export const addUser = async (req, res) => {
       fullname,
       email,
       username,
-      usernameLower: username.toLowerCase(),
       phoneNumber,
       password: hashedPassword,
       role,
@@ -63,7 +62,7 @@ export const addUser = async (req, res) => {
     if (error.code === 11000) {
       return res.status(400).json({
         success: false,
-        message: "Username already exists.",
+        message: "User already exists.",
       });
     }
 
@@ -327,14 +326,14 @@ export const CheckAuth = async (req, res) => {
 export const getUsers = async (req, res) => {
   try {
     const users = await User.find({
-      role: { $in: ["architect", "contributor", "editor", "staff", "user"] },
+      role: { $in: ["contributor", "editor", "staff", "user"] },
     });
 
     const userCounts = await User.aggregate([
       {
         $match: {
           role: {
-            $in: ["architect", "contributor", "editor", "staff", "user"],
+            $in: ["contributor", "editor", "staff", "user"],
           },
         },
       },
@@ -352,7 +351,7 @@ export const getUsers = async (req, res) => {
     }, {});
 
     const totalUsers = await User.countDocuments({
-      role: { $in: ["architect", "contributor", "editor", "staff", "user"] },
+      role: { $in: ["contributor", "editor", "staff", "user"] },
     });
 
     const now = new Date();
@@ -364,7 +363,7 @@ export const getUsers = async (req, res) => {
     );
 
     const lastMonthUsers = await User.countDocuments({
-      role: { $in: ["architect", "contributor", "editor", "staff", "user"] },
+      role: { $in: ["contributor", "editor", "staff", "user"] },
       createdAt: { $gte: oneMonthAgo },
     });
 

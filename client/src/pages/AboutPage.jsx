@@ -35,9 +35,7 @@ export default function AboutPage() {
 
   useEffect(() => {
     getAbout();
-  }, [user._id]);
-
-  console.log(about);
+  }, [user?._id]);
 
   return (
     <MainLayout>

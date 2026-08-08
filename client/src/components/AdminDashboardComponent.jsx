@@ -28,7 +28,8 @@ export function AdminDashboardUserTotalComponent({
         <div className="text-5xl flex items-center gap-1">
           {totalUsers}
           <p className="text-sm">
-            Users <span className="block -mt-1">Unboarded</span>
+            {totalUsers?.length > 1 ? "Users" : "User"}{" "}
+            <span className="block -mt-1">Unboarded</span>
           </p>
         </div>
         <div className="h-full w-full bg-gradient-to-r from-gray-200 via-gray-300 to-black"></div>
@@ -69,7 +70,7 @@ export function AdminDashboardReportComponent({
 }) {
   return (
     <Link
-      to="/user-dashboard?tab=reports"
+      to="/user-dashboard?tab=posts"
       className="flex flex-col p-3 bg-gray-200 hover:bg-opacity-70 min-w-64 w-full md:w-64 min-h-[110px] rounded-lg shadow-md cursor-pointer"
     >
       <div className="flex gap-2 items-center justify-end">
@@ -108,8 +109,8 @@ export function AdminDashboardReportComponent({
   );
 }
 
-// last week report count component
-export function LastWeekReportComponent({
+// subscribers count
+export function SubscribersComponent({
   totalReports,
   heading,
   reportCount,
@@ -117,7 +118,7 @@ export function LastWeekReportComponent({
 }) {
   return (
     <Link
-      to="/user-dashboard?tab=reports"
+      to="/user-dashboard?tab=posts"
       className="flex flex-col p-3 bg-gray-200 hover:bg-opacity-70 min-w-64 w-full md:w-64 min-h-[110px] rounded-lg shadow-md cursor-pointer"
     >
       <div className="flex gap-2 items-center justify-end">
@@ -136,22 +137,6 @@ export function LastWeekReportComponent({
         </div>
         <div className="h-full w-full bg-gradient-to-r from-gray-200 via-gray-300 to-black"></div>
       </div>
-      {/* <div className="grid grid-cols-3 mt-2 text-sm items-center justify-center bg-gray-400 rounded py-1">
-        <p className="text-green-800 flex flex-col items-center">
-          <span className="text-black text-sm">Pharm</span>
-          <span className="flex gap-1 items-center text-lg font-bold -mt-1">
-            <MdLocalPharmacy size={18} />
-            {reportsByRole?.pharmacist}
-          </span>
-        </p>
-        <p className="text-green-800 flex flex-col items-center">
-          <span className="text-black text-sm">Tech</span>
-          <span className="flex gap-1 items-center text-lg font-bold -mt-1">
-            <MdLocalPharmacy size={18} />
-            {reportsByRole?.pharmtech ? reportsByRole.pharmtech : 0}
-          </span>
-        </p>
-      </div> */}
     </Link>
   );
 }

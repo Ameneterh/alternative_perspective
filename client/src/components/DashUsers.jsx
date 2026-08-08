@@ -36,13 +36,13 @@ export default function DashUsers() {
 
   const getUsers = async () => {
     try {
-      const { users } = await getAllUsers();
+      const users = await getAllUsers();
 
       if (user.isAdmin && user.role === "architect") {
         setUsers(users);
       }
       if (user.isAdmin && user.role !== "architect") {
-        setUsers(users.filter((user) => !user.isDeleted));
+        setUsers(users?.filter((user) => !user?.isDeleted));
       }
     } catch (error) {
       console.log(error);
@@ -124,7 +124,7 @@ export default function DashUsers() {
   };
 
   const selectedUsers = users
-    .filter((user) => {
+    ?.filter((user) => {
       const search = searchTerm.toLowerCase();
 
       const matchesSearch =
@@ -234,7 +234,7 @@ export default function DashUsers() {
             />
           </div>
         </div>
-        {selectedUsers.length > 0 ? (
+        {selectedUsers?.length > 0 ? (
           <table className="border-collapse border-none leading-tight w-full">
             <thead className="bg-gray-400">
               <tr className="border-b-black border-b-2 text-sm">
@@ -245,13 +245,13 @@ export default function DashUsers() {
                   <th className="px-4 py-1 text-left">Created By</th>
                 )}
                 <th className="px-4 py-1 text-left">User Phone</th>
-                <th className="px-4 py-1 text-left">Rank</th>
+                <th className="px-4 py-1 text-left">Role</th>
                 <th className="px-4 py-1 text-left">isAdmin</th>
                 <th className="px-4 py-1 text-left">Actions</th>
               </tr>
             </thead>
             <tbody className="">
-              {selectedUsers.map((pickedUser, index) => (
+              {selectedUsers?.map((pickedUser, index) => (
                 <tr
                   key={index}
                   className={`${pickedUser.isDeleted ? "bg-red-200 text-red-700 font-semibold" : ""}`}
@@ -287,7 +287,7 @@ export default function DashUsers() {
                     {pickedUser.phoneNumber}
                   </td>
                   <td className="px-4 py-1 text-sm text-nowrap capitalize">
-                    {pickedUser.rank}
+                    {pickedUser.role}
                   </td>
                   <td className="px-4 py-1 text-sm text-nowrap capitalize">
                     <div className="flex items-center gap-1">

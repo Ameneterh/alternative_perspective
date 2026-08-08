@@ -143,6 +143,8 @@ export const useAuthStore = create((set) => ({
         isLoading: false,
       });
 
+      console.log(response);
+
       return response.data.users;
     } catch (error) {
       set({

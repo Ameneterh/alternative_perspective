@@ -10,7 +10,6 @@ import { useAuthStore } from "../store/authStore";
 import AdminDashboardComponent, {
   AdminDashboardUserTotalComponent,
   AdminDashboardReportComponent,
-  LastWeekReportComponent,
 } from "./AdminDashboardComponent";
 import { UserDashboardComponents } from "./AdminDashboardComponent";
 import Divider from "./Divider";
@@ -31,17 +30,6 @@ const fadeInUp = {
 };
 
 export default function DashboardComponent() {
-  const getLastSunday = () => {
-    const today = new Date();
-    const day = today.getDay(); // Sunday = 0, Monday = 1, ... Saturday = 6
-
-    const lastSunday = new Date(today);
-    lastSunday.setDate(today.getDate() - day);
-    lastSunday.setHours(0, 0, 0, 0);
-
-    return lastSunday.toISOString().split("T")[0];
-  };
-
   const { user } = useAuthStore();
   const { getAllUsers } = useAuthStore();
   const { getAllPosts } = usePostStore();
@@ -60,8 +48,10 @@ export default function DashboardComponent() {
   const [lastMonthUsers, setLastMonthUsers] = useState(0);
   const [userCount, setUserCount] = useState(0);
 
+  console.log(users);
+
   // for reports
-  const [reports, setReports] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [totalReports, setTotalReports] = useState(0);
   const [lastMonthReports, setLastMonthReports] = useState(0);
   const [lastWeekReports, setLastWeekReports] = useState(0);
@@ -71,8 +61,10 @@ export default function DashboardComponent() {
   // get users
   const getUsers = async () => {
     try {
-      const { users, totalUsers, lastMonthUsers, userCounts } =
-        await getAllUsers();
+      const users = await getAllUsers();
+
+      console.log(users);
+
       setUsers(users);
       setTotalUsers(totalUsers);
       setLastMonthUsers(lastMonthUsers);
@@ -83,13 +75,10 @@ export default function DashboardComponent() {
   };
 
   // get users
-  const getReports = async ({
-    startDate = new Date(getLastSunday()),
-    endDate = new Date(),
-  } = {}) => {
+  const getReports = async () => {
     try {
       const { posts } = await getAllPosts();
-      setReports(posts);
+      setPosts(posts);
     } catch (error) {
       console.log(error);
     }
@@ -112,7 +101,7 @@ export default function DashboardComponent() {
           <div className="flex-wrap flex gap-4">
             {/* show total number of registered users */}
             <AdminDashboardUserTotalComponent
-              totalUsers={totalUsers}
+              totalUsers={users?.length}
               heading={"total user count"}
               userCount={userCount}
             />
@@ -120,7 +109,7 @@ export default function DashboardComponent() {
             {/* show total number reports submitted */}
             <AdminDashboardReportComponent
               totalReports={posts.length}
-              heading={"total report count"}
+              heading={"total posts count"}
               reportCount={userCount}
               reportsByRole={reportsByRole}
             />
@@ -154,84 +143,60 @@ export default function DashboardComponent() {
         <></>
       )}
 
-      {/* <motion.div
+      <motion.div
         variants={fadeInUp}
         initial="hidden"
         animate="visible"
         className="w-full md:mx-auto"
       >
         <p className="text-lg font-bold mb-1">Recent Reports</p>
-        {reports.length > 0 ? (
+        {posts?.length > 0 ? (
           <table className="border-collapse table-auto mx-auto min-w-full border-none">
             <thead className=" bg-gray-500">
               <tr className="border-b-[2px] border-b-black text-sm">
-                <th className="text-left px-4 py-1 text-nowrap">Report Date</th>
-                <th className="text-left px-4 py-1 text-nowrap">Reporter</th>
-                <th className="text-left px-4 py-1 text-nowrap">
-                  Duty Details
-                </th>
-                <th className="text-left px-4 py-1 text-nowrap">Station</th>
-                <th className="text-left px-4 py-1 text-nowrap">Actions</th>
+                <th className="text-left px-4 py-1 text-nowrap">Post Date</th>
+                <th className="text-left px-4 py-1 text-nowrap">Author</th>
+                <th className="text-left px-4 py-1 text-nowrap">Post Title</th>
+                <th className="text-left px-4 py-1 text-nowrap">Read By</th>
+                <th className="text-left px-4 py-1 text-nowrap">Comments</th>
               </tr>
             </thead>
 
-            <tbody className="">
-              {reports.slice(0, 5).map((business) => (
+            <tbody className="text-sm">
+              {posts?.slice(0, 5).map((business) => (
                 <tr key={business._id} className="border-b border-b-gray-600">
                   <td className="px-4 py-1 text-sm align-top">
-                    {business.dutyDateTime
-                      ? new Date(business.dutyDateTime).toLocaleString(
-                          "en-US",
-                          {
-                            year: "numeric",
-                            month: "short",
-                            day: "numeric",
-                          },
-                        )
+                    {business.createdAt
+                      ? new Date(business.createdAt).toLocaleString("en-US", {
+                          year: "numeric",
+                          month: "short",
+                          day: "numeric",
+                        })
                       : ""}
                   </td>
 
                   <td className="px-4 py-1 align-top">
-                    <div className="flex items-start gap-2">
-                      <div className="flex flex-col text-sm">
-                        <p className="flex items-center gap-1">
-                          <span className="font-semibold flex items-center gap-1">
-                            <span className="font-semibold">
-                              {business?.reporter?.role === "admin"
-                                ? "Pharm Mrs"
-                                : business?.reporter?.role === "pharmacist"
-                                  ? "Pharm"
-                                  : "Pharm Tech"}
-                            </span>{" "}
-                            <span className="flex items-center capitalize">
-                              {business?.reporter?.fullname}
-                            </span>
-                          </span>
-                        </p>
-                      </div>
-                    </div>
+                    <Link
+                      to="/about"
+                      className="hover:text-blue-600 hover:underline underline-offset-2"
+                    >
+                      {business?.writer?.fullname}
+                    </Link>
                   </td>
                   <td className="px-4 py-1 align-top">
-                    <div className="flex items-center text-sm gap-1">
-                      <span className={`text-sm cursor-pointer capitalize`}>
-                        {business.dutyType}
-                      </span>
-                      Duty
-                      <span className={`text-sm cursor-pointer capitalize`}>
-                        {business.timeOfDuty}
-                      </span>
-                    </div>
+                    <Link
+                      to={`/post/${business.slug}`}
+                      className="hover:text-blue-600 hover:underline underline-offset-2"
+                    >
+                      {business.postTitle}
+                    </Link>
                   </td>
                   <td className="px-4 py-1 align-top text-sm">
-                    {business.workStation}
+                    {business.readCount} people
                   </td>
                   <td className="px-4 py-1 text-sm capitalize align-top">
-                    <span
-                      className="flex items-center gap-2 text-blue-700 rounded cursor-pointer w-fit hover:scale-110 transition-all duration-300 hover:underline underline-offset-2"
-                      onClick={() => handleOpenModal(business)}
-                    >
-                      Read Report
-                    </span>
+                    {business.comments.length}{" "}
+                    {business.comments.length === 1 ? "comment" : "comments"}
                   </td>
                 </tr>
               ))}
@@ -240,7 +205,7 @@ export default function DashboardComponent() {
         ) : (
           <p>No Reports found.</p>
         )}
-      </motion.div> */}
+      </motion.div>
 
       {/* modal to update user status */}
       {/* {showModal && (
