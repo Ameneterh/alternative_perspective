@@ -4,14 +4,14 @@ import { FaWhatsapp, FaShareAlt, FaCopy } from "react-icons/fa";
 export default function SharePost({ post }) {
   const [copied, setCopied] = useState(false);
 
-  const postUrl = `${window.location.origin}/post/${post.slug}`;
+  const postUrl = `${window.location.origin}/post/${post?.slug}`;
 
   const generateShareText = () => {
-    const snippet = post.postContent
+    const snippet = post?.postContent
       ?.replace(/<[^>]+>/g, "") // remove HTML
-      ?.slice(0, 140);
+      ?.slice(0, 150);
 
-    return `*${post.postTitle}*
+    return `*${post?.postTitle}*
 
 ${snippet}...
 
