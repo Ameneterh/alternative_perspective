@@ -7,6 +7,8 @@ import { useAuthStore } from "../store/authStore";
 import { MdEmail, MdOutlineAddComment, MdWhatsapp } from "react-icons/md";
 import { usePostStore } from "../store/postStore";
 import toast from "react-hot-toast";
+import { FaRegShareSquare } from "react-icons/fa";
+import SharePost from "../components/SharePost";
 
 export default function PostDisplayPage() {
   const { error, isLoading, logout, user } = useAuthStore();
@@ -14,6 +16,8 @@ export default function PostDisplayPage() {
   const { slug } = useParams();
   const [comment, setComment] = useState("");
   const [posts, setPosts] = useState([]);
+
+  const [copied, setCopied] = useState("");
 
   const getPosts = async () => {
     try {
@@ -67,15 +71,39 @@ export default function PostDisplayPage() {
         <div className="flex flex-col gap-3">
           <h1 className="text-3xl font-bold">{selectedPost?.postTitle}</h1>
 
-          <div className="flex items-center gap-4">
-            <p className="text-gray-800 text-sm">
-              Posted on{" "}
-              {new Date(selectedPost?.createdAt).toLocaleString("en-GB")}
-            </p>
-            <span className="border-l-2 border-b-gray-900 pl-2 text-sm">
-              Read {selectedPost?.readCount}{" "}
-              {selectedPost?.readCount === 1 ? "time" : "times"}
-            </span>
+          <div className="flex items-center justify-between">
+            <div className="flex items-center md:gap-4">
+              <p className="text-gray-800 text-sm">
+                Posted on{" "}
+                {new Date(selectedPost?.createdAt).toLocaleString("en-GB")}
+              </p>
+              <span className="border-l-2 border-b-gray-900 pl-2 text-sm">
+                Read {selectedPost?.readCount}{" "}
+                {selectedPost?.readCount === 1 ? "time" : "times"}
+              </span>
+            </div>
+            {/* <div
+              className="px-3 py-2 bg-gray-200 hover:bg-gray-300 transition-all duration-300 text-gray-600 cursor-pointer flex items-center gap-1 rounded-full text-nowrap text-sm"
+              onClick={() => {
+                navigator.clipboard.writeText(window.location.href);
+                setCopied(true);
+              }}
+              title="copy link to share"
+            >
+              <FaRegShareSquare size={16} />
+              <span>Copy Link</span>
+            </div> */}
+
+            <SharePost post={selectedPost} />
+
+            {copied &&
+              setTimeout(() => {
+                setCopied(false);
+              }, 2000) && (
+                <p className="fixed top-[28%] right-[50%] z-10 rounded-md bg-green-400 text-white p-2">
+                  Link copied!
+                </p>
+              )}
           </div>
           {/* <img
             src={selectedPost?.postImage}
