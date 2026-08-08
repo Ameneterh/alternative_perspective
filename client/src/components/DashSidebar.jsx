@@ -7,6 +7,7 @@ import {
   HiOutlineUserGroup,
   HiUser,
 } from "react-icons/hi";
+import { TiMessages } from "react-icons/ti";
 import {
   MdOutlineCreateNewFolder,
   MdAddBusiness,
@@ -56,12 +57,12 @@ export default function DashSidebar() {
 
   return (
     // <div className="min-h-screen w-full">
-    <Sidebar className="w-full md:min-h-screen flex flex-col justify-between">
+    <Sidebar className="w-full md:min-h-screen flex flex-col justify-between text-sm">
       <Sidebar.Items className="mb-5">
         <Sidebar.ItemGroup className="flex flex-col gap-1">
           {user && (
             <>
-              <Link to="/user-dashboard?tab=dash">
+              <Link to="/user-dashboard?tab=dash" className="text-nowrap">
                 <Sidebar.Item
                   active={tab === "dash" || !tab}
                   icon={HiChartPie}
@@ -70,7 +71,7 @@ export default function DashSidebar() {
                   Dashboard
                 </Sidebar.Item>
               </Link>
-              <Link to="/user-dashboard?tab=profile">
+              <Link to="/user-dashboard?tab=profile" className="text-nowrap">
                 <Sidebar.Item
                   active={tab === "profile"}
                   icon={HiUser}
@@ -93,7 +94,7 @@ export default function DashSidebar() {
 
           {(user.isAdmin || user.role === "architect") && (
             <>
-              <Link to="/user-dashboard?tab=posts">
+              <Link to="/user-dashboard?tab=posts" className="text-nowrap">
                 <Sidebar.Item
                   active={tab === "posts"}
                   icon={HiDocumentText}
@@ -102,7 +103,7 @@ export default function DashSidebar() {
                   View Posts
                 </Sidebar.Item>
               </Link>
-              <Link to="/user-dashboard?tab=users">
+              <Link to="/user-dashboard?tab=users" className="text-nowrap">
                 <Sidebar.Item
                   active={tab === "users"}
                   icon={HiOutlineUserGroup}
@@ -111,7 +112,19 @@ export default function DashSidebar() {
                   View Users
                 </Sidebar.Item>
               </Link>
-              <Link to="/user-dashboard?tab=add-content">
+              <Link to="/user-dashboard?tab=messages" className="text-nowrap">
+                <Sidebar.Item
+                  active={tab === "messages"}
+                  icon={TiMessages}
+                  as="div"
+                >
+                  View Messages
+                </Sidebar.Item>
+              </Link>
+              <Link
+                to="/user-dashboard?tab=add-content"
+                className="text-nowrap"
+              >
                 <Sidebar.Item
                   active={tab === "add-content"}
                   icon={MdOutlineCreateNewFolder}

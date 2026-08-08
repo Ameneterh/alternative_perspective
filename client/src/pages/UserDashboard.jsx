@@ -11,6 +11,7 @@ import DashProfile from "../components/DashProfile";
 import AddContent from "./AddContent";
 import DashPosts from "../components/DashPosts";
 import DashAddUser from "../components/DashAddUser";
+import DashMessages from "../components/DashMessages";
 
 export default function UserDashboard() {
   const { user, logout, isLoading } = useAuthStore();
@@ -58,8 +59,11 @@ export default function UserDashboard() {
         {/* for adding a new handler */}
         {tab === "add-user" && <DashAddUser />}
 
-        {/* view business */}
+        {/* view posts */}
         {tab === "posts" && <DashPosts />}
+
+        {/* view messages sent to admin */}
+        {tab === "messages" && <DashMessages />}
       </motion.div>
     </MainLayout>
   );

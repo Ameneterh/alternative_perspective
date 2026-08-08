@@ -221,7 +221,7 @@ export default function HeaderComponent({ business }) {
             user?.role === "editor" ? (
               <>
                 <Link
-                  to={"/user-dashboard?tab=notifications"}
+                  to={"/user-dashboard?tab=messages"}
                   className="flex items-center relative"
                 >
                   <img src={user?.avatar} className="rounded-full h-8 w-8" />

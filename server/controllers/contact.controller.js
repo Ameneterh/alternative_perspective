@@ -44,7 +44,7 @@ export const getMessages = async (req, res) => {
       });
     }
 
-    if (user.role !== "architect") {
+    if (user.role !== "editor" && user.role !== "architect" && !user.isAdmin) {
       return res.status(403).json({
         success: false,
         message: "Unauthorized to view messages",
