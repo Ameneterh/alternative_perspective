@@ -82,17 +82,6 @@ export default function PostDisplayPage() {
                 {selectedPost?.readCount === 1 ? "time" : "times"}
               </span>
             </div>
-            {/* <div
-              className="px-3 py-2 bg-gray-200 hover:bg-gray-300 transition-all duration-300 text-gray-600 cursor-pointer flex items-center gap-1 rounded-full text-nowrap text-sm"
-              onClick={() => {
-                navigator.clipboard.writeText(window.location.href);
-                setCopied(true);
-              }}
-              title="copy link to share"
-            >
-              <FaRegShareSquare size={16} />
-              <span>Copy Link</span>
-            </div> */}
 
             <SharePost post={selectedPost} />
 
@@ -127,16 +116,31 @@ export default function PostDisplayPage() {
           <div className="flex flex-col w-full bg-slate-100 p-1 border-t-2 border-t-black text-sm">
             <p className="font-bold">
               {selectedPost?.writer?.fullname}{" "}
-              {user?.isAdmin && user?.role === "editor" ? (
+              {selectedPost?.writer?.isAdmin &&
+              selectedPost?.writer?.role === "editor" ? (
                 <span className="font-light">
-                  is the Founder/Editor of{" "}
-                  <span className="font-bold">Alternative Perspective,</span>{" "}
+                  is the Founder/Editor,{" "}
+                  <Link
+                    to="https://alternativeperspective.onrender.com"
+                    className="font-bold text-blue-600 hover:underline underline-offset-2"
+                  >
+                    Alternative Perspective,
+                  </Link>{" "}
                   he{" "}
                 </span>
               ) : (
                 <></>
               )}
               <span className="font-light">can be reached via:</span>
+            </p>
+            <p>
+              Website:{" "}
+              <Link
+                to="https://alternativeperspective.onrender.com"
+                className="text-blue-600 hover:underline underline-offset-2"
+              >
+                https://alternativeperspective.onrender.com
+              </Link>{" "}
             </p>
             <div className="flex items-center gap-1">
               Email:
